@@ -17,7 +17,7 @@ spec:
         image: ${CONTAINER_REGISTRY}/${APPLICATION_NAME}
         imagePullPolicy: Always
         ports:
-        - containerPort: 8097
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -25,8 +25,8 @@ metadata:
   name: ${APPLICATION_NAME}
 spec:
   ports:
-  - port: 8097
-    nodePort: 30097
+  - port: 80
+    nodePort: 31040
   selector:
     app: ${APPLICATION_NAME}
   type: NodePort
