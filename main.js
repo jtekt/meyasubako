@@ -21,6 +21,9 @@ app.use(cors())
 var app_port = 80
 if(process.env.APP_PORT) app_port = process.env.APP_PORT
 
+app.get('/', (req,res) => {
+  res.send(`Monku API, Maxime MOREILLON <br> MonboDB URL: ${process.env.MONGODB_URL}`)
+})
 app.post('/monku', (req, res) => {
   console.log(req.body)
   if(!('content' in req.body)) return res.status(400).send('Content not present in request body')
