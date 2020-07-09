@@ -26,6 +26,7 @@ exports.create_proposal = (req, res) => {
       content: req.body.content,
       monku_id: monku_id,
       likes: 0,
+      timestamp: new Date(),
     }
 
     db.db(db_name).collection(proposals_collection_name)

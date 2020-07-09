@@ -21,6 +21,7 @@ exports.create_complaint = (req, res) => {
       content: req.body.content,
       likes: 0,
       proposals: [],
+      timestamp: new Date(),
     }
 
     db.db(db_name)
