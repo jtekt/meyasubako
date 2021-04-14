@@ -14,27 +14,23 @@ exports.vote = (req, res) => {
   if(!id) return res.status(400).send('ID not defined')
   if(!('vote' in req.body)) return res.status(400).send('Vote not present in request body')
 
-  MongoClient.connect(process.env.MONGODB_URL,mongodb_options, (err, db) => {
-    if (err) return res.status(500).send('Error connecting to DB')
+  MongoClient.connect(process.env.MONGODB_URL,mongodb_options)
+  .then(db => {
 
-    let filter = {
-      _id: ObjectID(id)
-    }
+    let filter = {  _id: ObjectID(id) }
+    let update = {  $inc: { likes: req.body.vote } }
+    let options = { returnOriginal:false }
 
-    let update = {
-      $inc: {
-        likes: req.body.vote
-      }
-    }
-
-    let options = {returnOriginal:false}
-
-    db.db(db_name)
+    return db.db(db_name)
     .collection(collection)
-    .findOneAndUpdate(filter, update, options, (err, result) => {
-      if (err) return res.status(500).send('Error querying DB')
-      db.close()
-      res.send(result)
-    })
+    .findOneAndUpdate(filter, update, options)
   })
+  .then(result => {
+    res.send(result)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send(error)
+  })
+
 }
