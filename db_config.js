@@ -11,8 +11,8 @@ exports.mongodb_options = {
 exports.db_config = {
   db_url: process.env.MONGODB_URL,
   db_name : 'feedback_gathering_system',
-  monku_collection_name : 'monku',
-  proposals_collection_name : 'proposals',
+  monku_collection_name : 'topics',
+  proposals_collection_name : 'comments',
 }
 
 exports.MongoClient = MongoClient
