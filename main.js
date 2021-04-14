@@ -5,9 +5,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const pjson = require('./package.json')
 
-const topics_controller = require('./controllers/topics.js')
-const comments_controller = require('./controllers/comments.js')
-const votes_controller = require('./controllers/votes.js')
+
 const items_controller = require('./controllers/items.js')
 
 dotenv.config()
