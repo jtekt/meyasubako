@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ${APPLICATION_NAME}
-        image: ${CONTAINER_REGISTRY}/${APPLICATION_NAME}
+        image: ${DOCKER_IMAGE}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -31,7 +31,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    nodePort: 31040
+    nodePort: #{NODEPORT_PORT}
   selector:
     app: ${APPLICATION_NAME}
   type: NodePort

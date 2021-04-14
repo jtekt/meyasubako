@@ -6,6 +6,8 @@ stages:
 variables:
   APPLICATION_NAME: feedback-gathering-system
   DOCKER_IMAGE: ${DOCKER_HUB_USERNAME}/${APPLICATION_NAME}
+  NODEPORT_PORT: 30654
+
 
 test:
   stage: test
@@ -29,7 +31,7 @@ deployment:
   stage: deployment
   script:
     # create/update the deployment
-    # - envsubst < deployment.yml | kubectl apply -f -
+    - envsubst < kubernetes_manifest.yml | kubectl apply -f -
     # Pull latest image of deployment
     - kubectl rollout restart deployment/${APPLICATION_NAME}
   environment:
