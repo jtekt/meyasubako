@@ -1,14 +1,7 @@
-const mongodb = require('mongodb')
 
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
-
-const db_name = 'feedback_gathering_system'
-const monku_collection_name = 'monku'
-
-const mongodb_options = {
-  useUnifiedTopology: true,
-}
+const db_config = require('../db_config.js')
+const {MongoCLient, ObjectID, mongodb_options} = db_config
+const {db_name, monku_collection_name, proposals_collection_name} = db_config.db_config
 
 
 exports.create_complaint = (req, res) => {

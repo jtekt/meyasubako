@@ -6,17 +6,6 @@ const bodyParser = require('body-parser')
 
 dotenv.config()
 
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
-
-const db_name = 'feedback_gathering_system'
-const monku_collection_name = 'monku'
-const proposals_collection_name = 'proposals'
-
-const mongodb_options = {
-  useUnifiedTopology: true,
-}
-
 
 const complaints_controller = require('./controllers/complaints.js')
 const proposals_controller = require('./controllers/proposals.js')
