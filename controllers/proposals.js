@@ -3,7 +3,7 @@ const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
 const ObjectID = mongodb.ObjectID
 
-const db_name = 'mendokusai'
+const db_name = 'feedback_gathering_system'
 const monku_collection_name = 'monku'
 const proposals_collection_name = 'proposals'
 
