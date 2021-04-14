@@ -10,6 +10,7 @@ dotenv.config()
 const complaints_controller = require('./controllers/complaints.js')
 const proposals_controller = require('./controllers/proposals.js')
 const votes_controller = require('./controllers/votes.js')
+const db_config = require('./db_config.js')
 
 const app_port = process.env.APP_PORT || 80
 
@@ -18,10 +19,9 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req,res) => {
-  res.send(`
-    Monku API, Maxime MOREILLON<br>
-    MonboDB URL: ${process.env.MONGODB_URL}
-    `)
+  res.send({
+    mongodb_url: db_config.db_config.db_url
+  })
 })
 
 // Complaints
