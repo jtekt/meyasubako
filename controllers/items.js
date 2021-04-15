@@ -98,10 +98,19 @@ exports.read_all_items = (req, res) => {
   const parent_id = req.params.item_id
   const query = { parent_id: parent_id ? parent_id : {$exists: false} }
 
-  Item.find(query)
-  .then(items => {
+  Item.find({})
+  .then( items => {
     console.log(`[Mongoose] Items queried`)
-    res.send(items)
+
+    const response = items.filter(item => item.parent_id?.toString() === req.params.item_id)
+    .map(queried_item => {
+      return {
+        ...queried_item.toObject(),
+        children: items.filter(item => item.parent_id?.toString() === queried_item._id.toString())
+      }
+    })
+
+    res.send(response)
   })
   .catch(error => {
     console.log(error)

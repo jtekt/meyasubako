@@ -5,7 +5,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const pjson = require('./package.json')
 
-
 const items_controller = require('./controllers/items.js')
 
 dotenv.config()
@@ -16,8 +15,9 @@ const mongoose_options = {
   useUnifiedTopology: true,
 }
 
-const mongodb_db = process.env.MONGODB_DB || 'user_manager_mongoose'
-const mongoose_url = `${process.env.MONGODB_URL}/${mongodb_db}`
+const mongodb_url = process.env.MONGODB_URL || 'mongodb://mongo'
+const mongodb_db = process.env.MONGODB_DB || 'feedback_gathering_system'
+const mongoose_url = `${mongodb_url}/${mongodb_db}`
 
 mongoose.set('useCreateIndex', true)
 mongoose.connect(mongoose_url, mongoose_options)
@@ -27,9 +27,6 @@ db.on('error', console.error.bind(console, '[Mongoose] connection error:'))
 db.once('open', () => { console.log('[Mongoose] Connected') })
 
 
-
-
-
 const app_port = process.env.APP_PORT || 80
 
 const app = express()
@@ -37,12 +34,9 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req,res) => {
-  res.send({
-
-  })
+  res.send({ })
 })
 
-// topics
 app.route('/items')
   .post(items_controller.create_item)
   .get(items_controller.read_all_items)
