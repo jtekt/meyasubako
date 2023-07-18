@@ -1,55 +1,56 @@
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const pjson = require('./package.json')
-
-const items_controller = require('./controllers/items.js')
+const express = require("express")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const { version } = require("./package.json")
+const {
+  url: db_url,
+  db: db_db,
+  connect: db_connect,
+  get_connected: db_get_connected,
+} = require("./db")
+const items_controller = require("./controllers/items")
 
 dotenv.config()
 
-// Mongoose connection
-const mongoose_options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}
+console.log(`Feedback gathering system v${version}`)
 
-const mongodb_url = process.env.MONGODB_URL || 'mongodb://mongo'
-const mongodb_db = process.env.MONGODB_DB || 'feedback_gathering_system'
-const mongoose_url = `${mongodb_url}/${mongodb_db}`
+const { APP_PORT = 80 } = process.env
 
-mongoose.set('useCreateIndex', true)
-mongoose.connect(mongoose_url, mongoose_options)
-
-const db = mongoose.connection
-db.on('error', console.error.bind(console, '[Mongoose] connection error:'))
-db.once('open', () => { console.log('[Mongoose] Connected') })
-
-
-const app_port = process.env.APP_PORT || 80
+db_connect()
 
 const app = express()
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cors())
 
-app.get('/', (req,res) => {
-  res.send({ })
+app.get("/", (req, res) => {
+  res.send({
+    application: "Feedback gathering system",
+    version,
+    mongodb: {
+      url: db_url,
+      db: db_db,
+      connected: db_get_connected(),
+    },
+  })
 })
 
-app.route('/items')
+app
+  .route("/items")
   .post(items_controller.create_item)
   .get(items_controller.read_all_items)
 
-app.route('/items/:item_id')
+app
+  .route("/items/:item_id")
   .get(items_controller.read_item)
   .delete(items_controller.delete_item)
 
-app.route('/items/:item_id/vote')
-  .post(items_controller.vote)
+app.route("/items/:item_id/vote").post(items_controller.vote)
 
-app.route('/items/:item_id/items')
+app
+  .route("/items/:item_id/items")
   .post(items_controller.create_item)
   .get(items_controller.read_all_items)
 
-app.listen(app_port, () => console.log(`Mendokusai running on port ${app_port}`))
+app.listen(APP_PORT, () =>
+  console.log(`[Express] listening on port ${APP_PORT}`)
+)
