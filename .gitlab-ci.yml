@@ -20,7 +20,7 @@ build:
   before_script:
     # Create repository if needed
     - >
-      aws ecr create-repository --repository-name ${CONTAINER_IMAGE_NAME}
+      aws ecr create-repository --repository-name ${APPLICATION_NAME}
       || echo "Repository might have already existed"
     # Log in to the registry (AWS credentials are stored as GitLab env variables)
     - >
