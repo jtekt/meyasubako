@@ -17,6 +17,8 @@ build:
   stage: build
   tags:
     - dind
+  only:
+    - master
   before_script:
     # Create repository if needed
     - >
@@ -37,6 +39,8 @@ deploy:
   stage: deploy
   tags:
     - dind
+  only:
+    - master
   before_script:
     # Create a secret with ECR credentials for K8s to pull
     # Here, we use apply to update it
