@@ -15,6 +15,9 @@ variables:
 
 build:
   stage: build
+  only:
+    - master
+    - legacy
   tags:
     - dind
   before_script:
@@ -37,6 +40,9 @@ deploy:
   stage: deploy
   tags:
     - dind
+  only:
+    - master
+    - legacy
   before_script:
     # Create a secret with ECR credentials for K8s to pull
     # Here, we use apply to update it
