@@ -11,7 +11,7 @@ export const createItem = async ({ body }: any) => {
 }
 
 export const readItems = async ({ query }: any) => {
-  const { skip = 0, take = 100, sort = "likes", order = "desc" } = query
+  const { skip = 0, take = 100, sort = "time", order = "desc" } = query
 
   const prismaQuery = {
     where: {
@@ -51,6 +51,7 @@ export const vote =
         id: Number(id),
       },
       data: { likes: { increment } },
+      include,
     }
     return prisma.item.update(query)
   }
