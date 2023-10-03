@@ -1,68 +1,56 @@
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const mongodb = require('mongodb')
-const bodyParser = require('body-parser')
+const express = require("express")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const { version } = require("./package.json")
+const {
+  url: db_url,
+  db: db_db,
+  connect: db_connect,
+  get_connected: db_get_connected,
+} = require("./db")
+const items_controller = require("./controllers/items")
 
 dotenv.config()
 
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
+console.log(`Feedback gathering system v${version}`)
 
-const db_name = 'mendokusai'
-const monku_collection_name = 'monku'
-const proposals_collection_name = 'proposals'
+const { APP_PORT = 80 } = process.env
 
-const mongodb_options = {
-  useUnifiedTopology: true,
-}
-
-
-const complaints_controller = require('./controllers/complaints.js')
-const proposals_controller = require('./controllers/proposals.js')
-const votes_controller = require('./controllers/votes.js')
-
-const app_port = process.env.APP_PORT || 80
+db_connect()
 
 const app = express()
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cors())
 
-app.get('/', (req,res) => {
-  res.send(`
-    Monku API, Maxime MOREILLON<br>
-    MonboDB URL: ${process.env.MONGODB_URL}
-    `)
+app.get("/", (req, res) => {
+  res.send({
+    application: "Feedback gathering system",
+    version,
+    mongodb: {
+      url: db_url,
+      db: db_db,
+      connected: db_get_connected(),
+    },
+  })
 })
 
-// Complaints
-app.route('/monku')
-  .post(complaints_controller.create_complaint)
-  .get(complaints_controller.get_complaint)
+app
+  .route("/items")
+  .post(items_controller.create_item)
+  .get(items_controller.read_all_items)
 
-app.route('/monku/:monku_id')
-  .get(complaints_controller.get_complaint)
-  .delete(complaints_controller.delete_complaint)
+app
+  .route("/items/:item_id")
+  .get(items_controller.read_item)
+  .delete(items_controller.delete_item)
 
-app.route('/monku/:monku_id/vote')
-  .post(votes_controller.vote)
+app.route("/items/:item_id/vote").post(items_controller.vote)
 
-// Proposals
-app.route('/monku/:monku_id/proposals')
-  .post(proposals_controller.create_proposal)
-  .get(proposals_controller.get_proposals)
+app
+  .route("/items/:item_id/items")
+  .post(items_controller.create_item)
+  .get(items_controller.read_all_items)
 
-app.route('/monku/:monku_id/proposals/:proposal_id')
-  .delete(proposals_controller.delete_proposal)
-
-app.route('/monku/:monku_id/proposals/:proposal_id/vote')
-  .post(votes_controller.vote)
-
-// Simplified routes to interact directly with proposals
-app.route('/proposals/:proposal_id')
-  .delete(proposals_controller.delete_proposal)
-
-app.route('/proposals/:proposal_id/vote')
-  .post(votes_controller.vote)
-
-app.listen(app_port, () => console.log(`Mendokusai running on port ${app_port}`))
+app.listen(APP_PORT, () =>
+  console.log(`[Express] listening on port ${APP_PORT}`)
+)
