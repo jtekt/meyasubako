@@ -11,16 +11,24 @@ export const createItem = async ({ body }: any) => {
 }
 
 export const readItems = async ({ query }: any) => {
-  const { skip = 0, take = 100, sort = "time", order = "desc" } = query
+  const {
+    skip = 0,
+    take = 100,
+    sort = "time",
+    order = "desc",
+    parent_id = null,
+  } = query
 
-  const prismaQuery = {
+  const baseQuery = {
     where: {
-      parent_id: null,
+      parent_id,
     },
   }
 
+  const total = await prisma.item.count(baseQuery)
+
   const fullQuery = {
-    ...prismaQuery,
+    ...baseQuery,
     include,
     skip: Number(skip),
     take: Number(take),
@@ -28,7 +36,6 @@ export const readItems = async ({ query }: any) => {
   }
 
   const items = await prisma.item.findMany(fullQuery)
-  const total = await prisma.item.count(prismaQuery)
 
   return { skip, take, total, items }
 }
@@ -38,7 +45,11 @@ export const readItem = async ({ params: { id } }: any) => {
     where: {
       id: Number(id),
     },
-    include,
+    include: {
+      comments: {
+        include,
+      },
+    },
   }
   return prisma.item.findUnique(query)
 }
