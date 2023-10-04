@@ -1,0 +1,37 @@
+stages:
+  - build
+
+variables:
+  APPLICATION_NAME: mendokusai
+  ECR_URL: 732469118990.dkr.ecr.ap-northeast-1.amazonaws.com
+  CONTAINER_TAG: prisma-${CI_COMMIT_SHORT_SHA}
+  CONTAINER_IMAGE: ${ECR_URL}/${APPLICATION_NAME}
+  CONTAINER_IMAGE_TAGGED: ${CONTAINER_IMAGE}:${CONTAINER_TAG}
+
+image: moreillon/ci-dind:4bca50d7
+services:
+  - name: docker:19.03.12-dind
+
+build:
+  stage: build
+  tags:
+    - dind
+  only:
+    - solid
+  before_script:
+    # ECR login for pushing
+    - >
+      aws ecr get-login-password
+      | docker login
+      --username AWS
+      --password-stdin
+      ${ECR_URL}
+    # Create repository if needed
+    - >
+      aws ecr create-repository --repository-name ${APPLICATION_NAME}
+      || echo "Repository might have already existed"
+  script:
+    # Build the container image
+    - docker build -t ${CONTAINER_IMAGE_TAGGED} .
+    # Push container images to registry
+    - docker push ${CONTAINER_IMAGE_TAGGED}
