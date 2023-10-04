@@ -14,16 +14,17 @@ export const readItems = async ({ query }: any) => {
   const {
     skip = 0,
     take = 100,
-    sort = "time",
+    sort = "likes",
     order = "desc",
-    parent_id = null,
+    parent_id,
   } = query
 
-  const baseQuery = {
-    where: {
-      parent_id,
-    },
+  const baseQuery: any = {
+    where: {},
   }
+
+  if (parent_id) baseQuery.where.parent_id = Number(parent_id)
+  else baseQuery.where.parent_id = null
 
   const total = await prisma.item.count(baseQuery)
 
@@ -44,11 +45,6 @@ export const readItem = async ({ params: { id } }: any) => {
   const query = {
     where: {
       id: Number(id),
-    },
-    include: {
-      comments: {
-        include,
-      },
     },
   }
   return prisma.item.findUnique(query)
