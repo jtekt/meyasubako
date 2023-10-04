@@ -14,6 +14,6 @@ model item {
   likes     Int?      @default(0)
   parent_id Int?
   time      DateTime? @default(now()) @db.Timestamp(6)
-  parent    item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_item_item")
+  parent    item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_item_item")
   comments  item[]    @relation("itemToitem")
 }
