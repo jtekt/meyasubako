@@ -17,6 +17,7 @@ export const readItems = async ({ query }: any) => {
     sort = "likes",
     order = "desc",
     parent_id,
+    search,
   } = query
 
   const baseQuery: any = {
@@ -25,6 +26,8 @@ export const readItems = async ({ query }: any) => {
 
   if (parent_id) baseQuery.where.parent_id = Number(parent_id)
   else baseQuery.where.parent_id = null
+  if (search)
+    baseQuery.where.content = { contains: search, mode: "insensitive" }
 
   const total = await prisma.item.count(baseQuery)
 
