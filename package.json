@@ -3,7 +3,7 @@
   "version": "1.0.50",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "prisma generate && bun run src/index.ts"
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
