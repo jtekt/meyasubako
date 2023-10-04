@@ -17,7 +17,7 @@ build:
   tags:
     - dind
   only:
-    - solid
+    - prisma
   before_script:
     # ECR login for pushing
     - >
