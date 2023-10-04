@@ -43,6 +43,8 @@ deploy:
   stage: deploy
   tags:
     - dind
+  only:
+    - prisma
   before_script:
     # Create a secret with ECR credentials for K8s to pull
     # Here, we use apply to update it
