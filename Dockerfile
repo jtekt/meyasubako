@@ -9,7 +9,6 @@ RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
     && rm n \
     && npm install -g n
 
-
 WORKDIR /usr/src/app
 
 COPY package*.json bun.lockb ./

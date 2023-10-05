@@ -1,8 +1,8 @@
-import { prisma } from "./src/prismaClient"
+import { prisma } from "../src/prismaClient"
 
 const url = "http://10.115.1.100:31040/monku"
 const response = await fetch(url)
-const items = await response.json() // HTML string
+const items = await response.json()
 
 const itemsFormatted = items.map((i: any) => ({
   time: i.timestamp,
