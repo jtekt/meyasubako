@@ -15,12 +15,13 @@ spec:
       containers:
         - name: ${APPLICATION_NAME}
           image: ${CONTAINER_IMAGE_TAGGED}
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
           envFrom:
             - secretRef:
                 name: environment-variables
+      imagePullSecrets:
+        - name: ${K8S_ECR_SECRET_NAME}
 
 ---
 apiVersion: v1

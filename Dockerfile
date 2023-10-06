@@ -1,17 +1,21 @@
-# Base image on node
-FROM node:14
+FROM oven/bun
 
-# Create app directory and move into it
+# Install nodejs using n for prisma
+RUN apt update \
+    && apt install -y curl
+ARG NODE_VERSION=18
+RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
+    && bash n $NODE_VERSION \
+    && rm n \
+    && npm install -g n
+
 WORKDIR /usr/src/app
 
-# Copy all files into container
+COPY package*.json bun.lockb ./
+RUN bun install
 COPY . .
 
-# Install packages
-RUN npm install
+RUN bunx prisma generate
 
-# Expose port
 EXPOSE 80
-
-# Run the app
-CMD [ "node", "main.js" ]
+CMD [ "bun", "run", "start" ]
