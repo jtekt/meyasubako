@@ -4,6 +4,17 @@ const include = {
   comments: true,
 }
 
+const includeParents = (layer = 0): any => {
+  // Get parents recursively
+  layer++
+  const max_layer = 50
+  return {
+    include: {
+      parent: layer < max_layer ? includeParents(layer) : false,
+    },
+  }
+}
+
 export const createItem = async ({ body }: any) => {
   const { content, parent_id } = body
   const data = { content, parent_id }
@@ -29,8 +40,6 @@ export const readItems = async ({ query }: any) => {
   if (search)
     baseQuery.where.content = { contains: search, mode: "insensitive" }
 
-  const total = await prisma.item.count(baseQuery)
-
   const fullQuery = {
     ...baseQuery,
     include,
@@ -40,6 +49,7 @@ export const readItems = async ({ query }: any) => {
   }
 
   const items = await prisma.item.findMany(fullQuery)
+  const total = await prisma.item.count(baseQuery)
 
   return { skip, take, total, items }
 }
@@ -49,6 +59,7 @@ export const readItem = async ({ params: { id } }: any) => {
     where: {
       id: Number(id),
     },
+    ...includeParents(),
   }
   return prisma.item.findUnique(query)
 }
