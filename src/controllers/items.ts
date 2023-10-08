@@ -25,7 +25,7 @@ export const readItems = async ({ query }: any) => {
   const {
     skip = 0,
     take = 100,
-    sort = "likes",
+    sort = "time",
     order = "desc",
     parent_id,
     search,
