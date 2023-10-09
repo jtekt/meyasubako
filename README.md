@@ -1,9 +1,4 @@
-# Mendokusai
+# 目安箱
 
-## Development
-
-To start the development server run:
-
-```bash
-bun run dev
-```
+A simple web application used to gather opinions. Each opinion can be liked, disliked and commented on in similar fashion to StackOverflow.
+Comments are treated like opinions and can also be liked, disliked and commented on.
