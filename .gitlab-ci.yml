@@ -3,10 +3,10 @@ stages:
   - deploy
 
 variables:
-  APPLICATION_NAME: mendokusai-prisma
+  APPLICATION_NAME: meyasubako
   ECR_URL: 732469118990.dkr.ecr.ap-northeast-1.amazonaws.com
   CONTAINER_TAG: prisma-${CI_COMMIT_SHORT_SHA}
-  CONTAINER_IMAGE: ${ECR_URL}/mendokusai
+  CONTAINER_IMAGE: ${ECR_URL}/${APPLICATION_NAME}
   CONTAINER_IMAGE_TAGGED: ${CONTAINER_IMAGE}:${CONTAINER_TAG}
   K8S_NODEPORT: 31050
   K8S_ECR_SECRET_NAME: ecr-credentials
@@ -32,7 +32,7 @@ build:
       ${ECR_URL}
     # Create repository if needed
     - >
-      aws ecr create-repository --repository-name mendokusai
+      aws ecr create-repository --repository-name ${APPLICATION_NAME}
       || echo "Repository might have already existed"
   script:
     # Build the container image
