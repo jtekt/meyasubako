@@ -23,16 +23,21 @@ export const createItem = async ({ body }: any) => {
 
 export const readItems = async ({ query }: any) => {
   const {
-    skip = 0,
-    take = 100,
+    skip = "0",
+    take = "100",
     sort = "time",
     order = "desc",
     parent_id,
     search,
+    min_likes = "-5",
   } = query
 
   const baseQuery: any = {
-    where: {},
+    where: {
+      likes: {
+        gte: Number(min_likes),
+      },
+    },
   }
 
   if (parent_id) baseQuery.where.parent_id = Number(parent_id)
