@@ -1,12 +1,13 @@
 import { Elysia } from "elysia"
 import { cors } from "@elysiajs/cors"
+import metricsMiddleware from "elysia-prometheus-metrics"
 import { createItem, readItems, readItem, vote } from "./controllers/items"
 
 const { ELYSIA_PORT = 80 } = process.env
 
 const app = new Elysia()
 app.use(cors())
-
+app.use(metricsMiddleware())
 app.post("/items", createItem)
 app.get("/items", readItems)
 app.get("/items/:id", readItem)
