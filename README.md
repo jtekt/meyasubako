@@ -9,4 +9,4 @@ Opinions/comments are stored in a PostgreSQL database, interfaced with using the
 
 ## Environment variables
 
-- MEYASUBAKO_DATABASE_URL: The URL of the PostgreSQL database
+- DATABASE_URL: The PostgreSQL connection string
