@@ -3,19 +3,16 @@ import { cors } from "@elysiajs/cors"
 import metricsMiddleware from "elysia-prometheus-metrics"
 import authMiddleware from "../auth"
 import { createItem, readItems, readItem, vote } from "./controllers/items"
-
+import { version, author, name as application } from "../package.json"
+import { BadRequestError, ForbiddenError } from "../utils"
 const { ELYSIA_PORT = 80, IDENTIFICATION_URL } = process.env
 
-const app = new Elysia().use(cors()).use(metricsMiddleware())
-
-if (IDENTIFICATION_URL) {
-  console.log(`Authentication enabled, URL: ${IDENTIFICATION_URL}`)
-  app.use(authMiddleware({ url: IDENTIFICATION_URL }))
-}
-
-app
-  .group("/items", (app) =>
-    app
+const app = new Elysia()
+  .use(cors())
+  .use(metricsMiddleware())
+  .get("/", () => ({ application, version, author }))
+  .group("/items", (app) => {
+    return app
       .post("/", createItem)
       .get("/", readItems)
       .get("/:id", readItem)
@@ -23,8 +20,17 @@ app
       .post("/:id/like", vote(1))
       .post("/:id/dislikes", vote(-1))
       .post("/:id/dislike", vote(-1))
-  )
-
-  .listen(ELYSIA_PORT, () => {
-    console.log(`Elysia listening on port ${ELYSIA_PORT}`)
   })
+  .error({
+    BAD_REQUEST: BadRequestError,
+    FORBIDDEN: ForbiddenError,
+  })
+
+if (IDENTIFICATION_URL) {
+  console.log(`Authentication enabled, URL: ${IDENTIFICATION_URL}`)
+  app.use(authMiddleware({ url: IDENTIFICATION_URL }))
+}
+
+app.listen(ELYSIA_PORT, () => {
+  console.log(`Elysia listening on port ${ELYSIA_PORT}`)
+})

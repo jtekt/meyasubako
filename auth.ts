@@ -1,4 +1,5 @@
 import Elysia, { Context } from "elysia"
+import { ForbiddenError } from "./utils"
 
 interface Opts {
   url: string
@@ -13,7 +14,7 @@ const handleOnRequest = (opts: Opts) => async (ctx: any) => {
   if (method === "OPTIONS") return
 
   const authorization = headers.get("authorization")
-  if (!authorization) throw "authorization header not set"
+  if (!authorization) throw new ForbiddenError("authorization header not set")
 
   const response = await fetch(url, { headers: { authorization } })
   const userData = await response.json()
