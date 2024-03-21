@@ -1,22 +1,30 @@
 import { Elysia } from "elysia"
 import { cors } from "@elysiajs/cors"
 import metricsMiddleware from "elysia-prometheus-metrics"
+import authMiddleware from "../auth"
 import { createItem, readItems, readItem, vote } from "./controllers/items"
 
-const { ELYSIA_PORT = 80 } = process.env
+const { ELYSIA_PORT = 80, IDENTIFICATION_URL } = process.env
 
-const app = new Elysia()
-app.use(cors())
-app.use(metricsMiddleware())
-app.post("/items", createItem)
-app.get("/items", readItems)
-app.get("/items/:id", readItem)
+const app = new Elysia().use(cors()).use(metricsMiddleware())
 
-app.post("/items/:id/likes", vote(1))
-app.post("/items/:id/like", vote(1))
-app.post("/items/:id/dislikes", vote(-1))
-app.post("/items/:id/dislike", vote(-1))
+if (IDENTIFICATION_URL) {
+  console.log(`Authentication enabled, URL: ${IDENTIFICATION_URL}`)
+  app.use(authMiddleware({ url: IDENTIFICATION_URL }))
+}
 
-app.listen(ELYSIA_PORT, () => {
-  console.log(`Elysia listening on port ${app.server?.port}`)
-})
+app
+  .group("/items", (app) =>
+    app
+      .post("/", createItem)
+      .get("/", readItems)
+      .get("/:id", readItem)
+      .post("/:id/likes", vote(1))
+      .post("/:id/like", vote(1))
+      .post("/:id/dislikes", vote(-1))
+      .post("/:id/dislike", vote(-1))
+  )
+
+  .listen(ELYSIA_PORT, () => {
+    console.log(`Elysia listening on port ${ELYSIA_PORT}`)
+  })
