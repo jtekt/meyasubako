@@ -15,13 +15,14 @@ const includeParents = (layer = 0): any => {
   }
 }
 
-export const createItem = async ({ body }: any) => {
+export const createItem = async ({ store, body }: any) => {
   const { content, parent_id } = body
-  const data = { content, parent_id }
+  const user_id = store.user?._id
+  const data = { content, parent_id, user_id }
   return prisma.item.create({ data })
 }
 
-export const readItems = async ({ query }: any) => {
+export const readItems = async ({ store, query }: any) => {
   const {
     skip = "0",
     take = "100",
