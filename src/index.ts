@@ -17,8 +17,8 @@ const app = new Elysia()
     author,
     databse_url: DATABASE_URL.replace(/:.*@/, "://***:***@"),
   }))
-  .group("/items", (app) => {
-    return app
+  .group("/items", (app) =>
+    app
       .post("/", createItem)
       .get("/", readItems)
       .get("/:id", readItem)
@@ -26,7 +26,7 @@ const app = new Elysia()
       .post("/:id/like", vote(1))
       .post("/:id/dislikes", vote(-1))
       .post("/:id/dislike", vote(-1))
-  })
+  )
   .error({
     BAD_REQUEST: BadRequestError,
     FORBIDDEN: ForbiddenError,
