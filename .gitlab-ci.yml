@@ -12,6 +12,9 @@ variables:
   CONTAINER_IMAGE_LATEST: ${CONTAINER_IMAGE}:latest
   CONTAINER_IMAGE_TAGGED: ${CONTAINER_IMAGE}:${CONTAINER_TAG}
 
+  TEST_NETWORK: tdd
+  TEST_DB: tdd-db
+
   K8S_NODEPORT: 31050
 
 image: moreillon/ci-dind:4bca50d7
