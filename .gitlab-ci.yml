@@ -1,6 +1,8 @@
 stages:
   - build
+  - test
   - deploy
+  - release
 
 variables:
   APPLICATION_NAME: meyasubako
