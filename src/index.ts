@@ -6,9 +6,13 @@ import { createItem, readItems, readItem, vote } from "./controllers/items"
 import { version, author, name as application } from "../package.json"
 import { BadRequestError, ForbiddenError } from "../utils"
 
-const { ELYSIA_PORT = 80, IDENTIFICATION_URL, DATABASE_URL = "" } = process.env
+export const {
+  ELYSIA_PORT = 80,
+  IDENTIFICATION_URL,
+  DATABASE_URL = "",
+} = process.env
 
-const app = new Elysia()
+export const app = new Elysia()
   .use(cors())
   .use(metricsMiddleware())
   .get("/", () => ({
