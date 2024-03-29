@@ -1,7 +1,7 @@
 {
   "name": "mendokusai",
   "author": "Maxime MOREILLON",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
