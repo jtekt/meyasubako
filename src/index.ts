@@ -1,10 +1,10 @@
 import { Elysia } from "elysia"
 import { cors } from "@elysiajs/cors"
 import metricsMiddleware from "elysia-prometheus-metrics"
-import authMiddleware from "../auth"
+import authMiddleware from "./auth"
 import { createItem, readItems, readItem, vote } from "./controllers/items"
 import { version, author, name as application } from "../package.json"
-import { BadRequestError, ForbiddenError } from "../utils"
+import { BadRequestError, ForbiddenError } from "./utils"
 
 export const {
   ELYSIA_PORT = 80,
