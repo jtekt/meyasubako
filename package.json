@@ -11,7 +11,7 @@
     "@elysiajs/cors": "^0.7.2",
     "@prisma/client": "^5.3.1",
     "elysia": "latest",
-    "elysia-prometheus-metrics": "^1.0.12"
+    "elysia-prometheus-metrics": "^1.2.9"
   },
   "devDependencies": {
     "bun-types": "latest",
