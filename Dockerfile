@@ -9,4 +9,4 @@ COPY . .
 RUN bunx prisma generate
 
 EXPOSE 80
-CMD [ "bun", "run", "start:migrate:prod" ]
+CMD [ "bun", "run", "start:migrate:resolve" ]

@@ -6,8 +6,8 @@
     "dev": "bun run --watch src/index.ts",
     "ci-test": "bunx prisma db push && bun test",
     "start": "bun run src/index.ts",
-    "start:prod": "node dist/main",
-    "start:migrate:prod": "bunx prisma migrate deploy && bun run src/index.ts"
+    "start:migrate": "bunx prisma migrate deploy && bun run src/index.ts",
+    "start:migrate:resolve": "bunx prisma migrate resolve --applied 0_init && bun run src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.2",
