@@ -1,17 +1,19 @@
-import { createAsync, type RouteDefinition } from "@solidjs/router";
-import { getItems } from "~/lib";
+// import { createAsync, type RouteDefinition } from "@solidjs/router";
+import ItemsTable from "~/components/ItemsTable";
+// import { getItems } from "~/lib";
 
-export const route = {
-  preload() {
-    getItems();
-  },
-} satisfies RouteDefinition;
+// export const route = {
+//   preload() {
+//     getItems();
+//   },
+// } satisfies RouteDefinition;
 
 export default function Home() {
-  const items = createAsync(() => getItems(), { deferStream: true });
+  // const items = createAsync(() => getItems(), { deferStream: true });
   return (
     <main>
-      <p> {JSON.stringify(items())}</p>
+      {/* <p> {JSON.stringify(items())}</p> */}
+      <ItemsTable />
     </main>
   );
 }
