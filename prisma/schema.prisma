@@ -3,15 +3,22 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String @id @default(uuid())
-  username String @unique
-  password String
+
+model item {
+  id        Int       @id(map: "pk_item") @default(autoincrement())
+  content   String
+  likes     Int?      @default(0)
+  parent_id Int?
+  time      DateTime? @default(now()) @db.Timestamp(6)
+  user_id   String?
+  parent    item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_item_item")
+  comments  item[]    @relation("itemToitem")
 }
