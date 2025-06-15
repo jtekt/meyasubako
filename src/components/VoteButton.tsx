@@ -1,8 +1,35 @@
 import { createSignal, Show } from "solid-js";
 import { FaRegularThumbsUp, FaRegularThumbsDown } from "solid-icons/fa";
 import { votes, setVotes } from "../store";
+import { action, useAction } from "@solidjs/router";
+import { db } from "~/lib/db";
 
-export default ({ type, item, onUpdate }: any) => {
+type Vote = "like" | "dislike";
+const registerVote = action(async (id: number, vote: Vote) => {
+  "use server";
+  const voteMap = {
+    like: 1,
+    dislike: -1,
+  };
+
+  const increment = voteMap[vote];
+
+  return db.item.update({
+    where: { id },
+    data: { likes: { increment } },
+  });
+}, "vote");
+
+// TODO: better typing
+type Props = {
+  type: Vote;
+  item: any;
+  onUpdate: Function;
+};
+
+export default ({ type, item, onUpdate }: Props) => {
+  const voteAction = useAction(registerVote);
+
   const [loading, setLoading] = createSignal(false);
 
   const findVote = () => votes.find((vote: any) => vote.item_id === item.id);
@@ -10,27 +37,23 @@ export default ({ type, item, onUpdate }: any) => {
   const getClass = () => (buttonHasBeenClicked() ? "btn btn-primary" : "btn");
 
   async function vote() {
-    await sendRequest(type);
+    // await sendRequest(type);
+    // await registerVote(item.id, type);
+    await voteAction(item.id, type);
     setVotes([...votes, { item_id: item.id, type }]);
     localStorage.setItem("votes", JSON.stringify(votes));
   }
 
   async function cancelVote() {
-    const cancelMap: any = { like: "dislike", dislike: "like" };
-    await sendRequest(cancelMap[type]);
+    // TODO: understand what K in does
+    const cancelMap: { [K in Vote]: Vote } = {
+      like: "dislike",
+      dislike: "like",
+    };
+    await voteAction(item.id, cancelMap[type]);
     const newVotes = votes.slice().filter(({ item_id }) => item_id !== item.id);
     setVotes(newVotes);
     localStorage.setItem("votes", JSON.stringify(votes));
-  }
-
-  async function sendRequest(param: string) {
-    alert("WIP");
-    // setLoading(true);
-
-    // const { data } = await axios.post(`/items/${item.id}/${param}`);
-
-    // onUpdate(data);
-    // setLoading(false);
   }
 
   function handleClick() {

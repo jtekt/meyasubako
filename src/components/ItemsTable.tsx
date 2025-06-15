@@ -1,25 +1,67 @@
 import { For, createEffect, createSignal, Show, on } from "solid-js";
 import { formatDate } from "../lib/utils";
 import { FaRegularComment } from "solid-icons/fa";
-import { A, useParams, useLocation } from "@solidjs/router";
+import { A, useParams, useLocation, query } from "@solidjs/router";
 // import { createIntersectionObserver } from "@solid-primitives/intersection-observer";
 import VoteButton from "~/components//VoteButton";
 import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 // import { t } from "~/components/LocaleSelector";
 import { createAsync, type RouteDefinition } from "@solidjs/router";
-import { getItems } from "~/lib";
+import { db } from "~/lib/db";
+// import { getItems } from "~/lib";
 
-export const route = {
-  preload() {
-    getItems();
-  },
-} satisfies RouteDefinition;
+// export const route = {
+//   preload() {
+//     getItems();
+//   },
+// } satisfies RouteDefinition;
+
+// TODO: have this in the server file?
+const getItems = query(async () => {
+  "use server";
+
+  const {
+    skip = "0",
+    take = "100",
+    sort = "time",
+    order = "desc",
+    min_likes = "-5",
+    // parent_id,
+    // search,
+  } = {};
+
+  const baseQuery: any = {
+    where: {
+      likes: {
+        gte: Number(min_likes),
+      },
+    },
+  };
+
+  // if (parent_id) baseQuery.where.parent_id = Number(parent_id)
+  //  else baseQuery.where.parent_id = null
+  //   if (search)
+  //     baseQuery.where.content = { contains: search, mode: "insensitive" }
+
+  const fullQuery = {
+    ...baseQuery,
+    include: { comments: true },
+    skip: Number(skip),
+    take: Number(take),
+    orderBy: [{ [sort]: order }],
+  };
+
+  const items = await db.item.findMany(fullQuery);
+  const total = await db.item.count(baseQuery);
+
+  return { skip, take, total, items };
+}, "items");
 
 export default ({ type = "items" }: any) => {
   // const [items, setItems] = createSignal<any>([]);
 
-  const items = createAsync(() => getItems(), { deferStream: true });
+  const data = createAsync(() => getItems(), { deferStream: true });
 
   // const total = 0;
   // const loading = false;
@@ -34,6 +76,15 @@ export default ({ type = "items" }: any) => {
   const location = useLocation();
   const take = 50;
   let intersecting = false;
+
+  function handleUpdate(i: any) {
+    alert("WIP");
+    // const itemsCopy = items().slice()
+    // const foundIndex = itemsCopy.findIndex(({ id }: any) => id === i.id)
+    // // @ts-ignore
+    // itemsCopy.splice(foundIndex, 1, i)
+    // setItems(itemsCopy)
+  }
 
   // createEffect(
   //   on(
@@ -114,7 +165,7 @@ export default ({ type = "items" }: any) => {
               </tr>
             </thead>
             <tbody>
-              <For each={items()}>
+              <For each={data()?.items || []}>
                 {(item: any) => (
                   <tr>
                     <td class="text-gray-500">{formatDate(item.time)}</td>
@@ -128,19 +179,19 @@ export default ({ type = "items" }: any) => {
                       </A>
                     </td>
                     <td class="flex items-center gap-2 ">
-                      {/* <VoteButton
+                      <VoteButton
                         item={item}
                         onUpdate={handleUpdate}
                         type="like"
-                      /> */}
+                      />
                       <span class="basis-10 text-center text-lg">
                         {item.likes}
                       </span>
-                      {/* <VoteButton
+                      <VoteButton
                         item={item}
                         onUpdate={handleUpdate}
                         type="dislike"
-                      /> */}
+                      />
                     </td>
                     <td class="text-center">
                       <A
