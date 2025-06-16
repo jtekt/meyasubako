@@ -1,5 +1,6 @@
 // import { createAsync, type RouteDefinition } from "@solidjs/router";
 import ItemsTable from "~/components/ItemsTable";
+import NewItemForm from "~/components/NewItemForm";
 // import { getItems } from "~/lib";
 
 // export const route = {
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main>
       {/* <p> {JSON.stringify(items())}</p> */}
+      <NewItemForm />
       <ItemsTable />
     </main>
   );
