@@ -1,5 +1,74 @@
-import { action, query, redirect } from "@solidjs/router";
+import { action, query, redirect, useParams } from "@solidjs/router";
 import { db } from "./db";
+
+export const getItems = query(
+  async ({ parent_id, search }: { parent_id?: number; search: any }) => {
+    "use server";
+
+    // TODO: get those from arguments
+    const {
+      skip = "0",
+      take = "100",
+      sort = "time",
+      order = "desc",
+      min_likes = "-5",
+      // parent_id,
+      // search,
+    } = {};
+
+    const baseQuery: any = {
+      where: {
+        likes: {
+          gte: Number(min_likes),
+        },
+      },
+    };
+
+    if (parent_id) baseQuery.where.parent_id = parent_id;
+    else baseQuery.where.parent_id = null;
+
+    //   if (search)
+    //     baseQuery.where.content = { contains: search, mode: "insensitive" }
+
+    const fullQuery = {
+      ...baseQuery,
+      include: { comments: true },
+      skip: Number(skip),
+      take: Number(take),
+      orderBy: [{ [sort]: order }],
+    };
+
+    const items = await db.item.findMany(fullQuery);
+    const total = await db.item.count(baseQuery);
+
+    return { skip, take, total, items };
+  },
+  "items"
+);
+
+const includeParents = (layer = 0): any => {
+  // Get parents recursively
+  layer++;
+  const max_layer = 50;
+  return {
+    include: {
+      parent: layer < max_layer ? includeParents(layer) : false,
+    },
+  };
+};
+
+export const getItem = query(async () => {
+  "use server";
+  const params = useParams();
+  const query = {
+    where: {
+      id: Number(params.id),
+    },
+    ...includeParents(),
+  };
+  return db.item.findUnique(query);
+}, "item");
+
 // import {
 //   getSession,
 //   login,
@@ -51,9 +120,3 @@ import { db } from "./db";
 //   await logoutSession();
 //   return redirect("/login");
 // });
-
-export const getItems = query(async () => {
-  "use server";
-  const items = db.item.findMany();
-  return items;
-}, "items");

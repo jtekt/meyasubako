@@ -37,14 +37,16 @@ export default ({ type, item, onUpdate }: Props) => {
   const getClass = () => (buttonHasBeenClicked() ? "btn btn-primary" : "btn");
 
   async function vote() {
-    // await sendRequest(type);
-    // await registerVote(item.id, type);
+    setLoading(true);
     await voteAction(item.id, type);
     setVotes([...votes, { item_id: item.id, type }]);
     localStorage.setItem("votes", JSON.stringify(votes));
+    setLoading(false);
   }
 
   async function cancelVote() {
+    setLoading(true);
+
     // TODO: understand what K in does
     const cancelMap: { [K in Vote]: Vote } = {
       like: "dislike",
@@ -54,6 +56,7 @@ export default ({ type, item, onUpdate }: Props) => {
     const newVotes = votes.slice().filter(({ item_id }) => item_id !== item.id);
     setVotes(newVotes);
     localStorage.setItem("votes", JSON.stringify(votes));
+    setLoading(false);
   }
 
   function handleClick() {

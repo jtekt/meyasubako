@@ -1,18 +1,17 @@
-// import { createAsync, type RouteDefinition } from "@solidjs/router";
+import { createAsync, useSearchParams } from "@solidjs/router";
 import ItemsTable from "~/components/ItemsTable";
-// import { getItems } from "~/lib";
+import NewItemForm from "~/components/NewItemForm";
+import { getItems } from "~/lib";
 
-// export const route = {
-//   preload() {
-//     getItems();
-//   },
-// } satisfies RouteDefinition;
+export default function Items() {
+  const [search] = useSearchParams();
+  console.log(search);
+  const data = createAsync(() => getItems({ search }));
 
-export default function Home() {
-  // const items = createAsync(() => getItems(), { deferStream: true });
   return (
     <main>
-      <ItemsTable />
+      <NewItemForm />
+      <ItemsTable data={data} />
     </main>
   );
 }
