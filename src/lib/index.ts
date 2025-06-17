@@ -1,11 +1,12 @@
-import { action, query, redirect, useParams } from "@solidjs/router";
-import { db } from "./db";
+// NOTE: 'use' router primitives can be only used inside a Route
+import { action, query, redirect } from "@solidjs/router";
+import prisma from "~/lib/prisma";
+type Vote = "like" | "dislike";
 
 export const getItems = query(
   async ({ parent_id, search }: { parent_id?: number; search: any }) => {
     "use server";
 
-    // TODO: get those from arguments
     const {
       skip = "0",
       take = "100",
@@ -32,14 +33,14 @@ export const getItems = query(
 
     const fullQuery = {
       ...baseQuery,
-      include: { comments: true },
+      // include: { comments: true },
       skip: Number(skip),
       take: Number(take),
       orderBy: [{ [sort]: order }],
     };
 
-    const items = await db.item.findMany(fullQuery);
-    const total = await db.item.count(baseQuery);
+    const items = await prisma.item.findMany(fullQuery);
+    const total = await prisma.item.count(baseQuery);
 
     return { skip, take, total, items };
   },
@@ -57,17 +58,30 @@ const includeParents = (layer = 0): any => {
   };
 };
 
-export const getItem = query(async () => {
+export const getItem = query(async (id: number) => {
   "use server";
-  const params = useParams();
   const query = {
-    where: {
-      id: Number(params.id),
-    },
+    where: { id },
     ...includeParents(),
   };
-  return db.item.findUnique(query);
+  const item = await prisma.item.findUnique(query);
+  return item;
 }, "item");
+
+export const registerVote = action(async (id: number, vote: Vote) => {
+  "use server";
+  const voteMap = {
+    like: 1,
+    dislike: -1,
+  };
+
+  const increment = voteMap[vote];
+
+  return prisma.item.update({
+    where: { id },
+    data: { likes: { increment } },
+  });
+}, "vote");
 
 // import {
 //   getSession,

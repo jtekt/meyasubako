@@ -5,13 +5,14 @@ import { getItems } from "~/lib";
 
 export default function Items() {
   const [search] = useSearchParams();
-  console.log(search);
   const data = createAsync(() => getItems({ search }));
 
   return (
-    <main>
-      <NewItemForm />
-      <ItemsTable data={data} />
-    </main>
+    <div>
+      {JSON.stringify(data())}
+      {/* <NewItemForm /> */}
+      {/* TODO: pass data or data() ? */}
+      {/* <ItemsTable data={data} /> */}
+    </div>
   );
 }

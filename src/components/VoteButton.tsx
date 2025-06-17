@@ -1,25 +1,10 @@
 import { createSignal, Show } from "solid-js";
 import { FaRegularThumbsUp, FaRegularThumbsDown } from "solid-icons/fa";
 import { votes, setVotes } from "../store";
-import { action, useAction } from "@solidjs/router";
-import { db } from "~/lib/db";
+import { useAction } from "@solidjs/router";
+import { registerVote } from "~/lib";
 
 type Vote = "like" | "dislike";
-const registerVote = action(async (id: number, vote: Vote) => {
-  "use server";
-  const voteMap = {
-    like: 1,
-    dislike: -1,
-  };
-
-  const increment = voteMap[vote];
-
-  return db.item.update({
-    where: { id },
-    data: { likes: { increment } },
-  });
-}, "vote");
-
 // TODO: better typing
 type Props = {
   type: Vote;
