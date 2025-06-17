@@ -7,7 +7,7 @@ import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 // import { t } from "~/components/LocaleSelector";
 import { A, AccessorWithLatest } from "@solidjs/router";
-import { Prisma } from "~/../generated/prisma";
+import { Prisma } from "~/src/generated/prisma";
 
 type Props = {
   // type?: "items" | "comments";

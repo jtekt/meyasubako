@@ -1,7 +1,7 @@
 import { For } from "solid-js";
 import { A } from "@solidjs/router";
 import { VsHome } from "solid-icons/vs";
-import { Prisma } from "~/../generated/prisma";
+import { Prisma } from "~/src/generated/prisma";
 // import { t } from "./LocaleSelector";
 
 type Props = { item: any };

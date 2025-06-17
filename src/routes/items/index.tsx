@@ -9,10 +9,9 @@ export default function Items() {
 
   return (
     <div>
-      {JSON.stringify(data())}
-      {/* <NewItemForm /> */}
+      <NewItemForm />
       {/* TODO: pass data or data() ? */}
-      {/* <ItemsTable data={data} /> */}
+      <ItemsTable data={data} />
     </div>
   );
 }

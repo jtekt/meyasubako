@@ -15,6 +15,6 @@ model item {
   parent_id  Int?
   time       DateTime? @default(now()) @db.Timestamp(6)
   user_id    String?
-  item       item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, map: "fk_item_item")
-  other_item item[]    @relation("itemToitem")
+  parent       item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, map: "fk_item_item")
+  comments item[]    @relation("itemToitem")
 }

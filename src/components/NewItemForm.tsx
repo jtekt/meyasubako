@@ -1,6 +1,6 @@
 import { IoSend } from "solid-icons/io";
 import { action, useSubmission } from "@solidjs/router";
-import { prisma } from "~/lib/prisma";
+import prisma from "~/lib/prisma";
 
 type Props = {
   type?: "comment" | "item";

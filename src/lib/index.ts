@@ -33,7 +33,7 @@ export const getItems = query(
 
     const fullQuery = {
       ...baseQuery,
-      // include: { comments: true },
+      include: { comments: true },
       skip: Number(skip),
       take: Number(take),
       orderBy: [{ [sort]: order }],
