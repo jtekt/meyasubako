@@ -3,6 +3,7 @@ import ItemsTable from "~/components/ItemsTable";
 import NewItemForm from "~/components/NewItemForm";
 import { getItems } from "~/lib";
 
+// Not necessary
 export const route = {
   preload: ({ location }) => getItems(null, location.search),
 } satisfies RouteDefinition;
