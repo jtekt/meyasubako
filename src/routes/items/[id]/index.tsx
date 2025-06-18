@@ -4,6 +4,7 @@ import NewItemForm from "~/components/NewItemForm";
 import {
   createAsync,
   RouteDefinition,
+  useLocation,
   useParams,
   useSearchParams,
 } from "@solidjs/router";
@@ -17,15 +18,10 @@ export const route = {
 
 export default function Item() {
   const params = useParams();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const item = createAsync(() => getItem(Number(params.id)));
-  const data = createAsync(() =>
-    getItems(
-      Number(params.id),
-      `?${new URLSearchParams(searchParams).toString()}`
-    )
-  );
+  const data = createAsync(() => getItems(Number(params.id), location.search));
 
   return (
     <Show when={item()}>
