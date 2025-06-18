@@ -12,6 +12,7 @@ import { getItems, getItem } from "~/lib";
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { Show } from "solid-js";
 
+// Not necessary
 export const route = {
   preload: (e) => getItems(Number(e.params.id), e.location.search),
 } satisfies RouteDefinition;

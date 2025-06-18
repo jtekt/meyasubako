@@ -1,9 +1,4 @@
-import {
-  createAsync,
-  RouteDefinition,
-  useLocation,
-  useSearchParams,
-} from "@solidjs/router";
+import { createAsync, RouteDefinition, useLocation } from "@solidjs/router";
 import ItemsTable from "~/components/ItemsTable";
 import NewItemForm from "~/components/NewItemForm";
 import { getItems } from "~/lib";
