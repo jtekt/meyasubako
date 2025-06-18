@@ -7,7 +7,7 @@ import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 // import { t } from "~/components/LocaleSelector";
 import { A, AccessorWithLatest } from "@solidjs/router";
-import { Prisma } from "~/src/generated/prisma";
+import { Prisma } from "~/generated/prisma";
 
 type Props = {
   // type?: "items" | "comments";
@@ -18,9 +18,6 @@ type Props = {
 };
 
 export default ({ data }: Props) => {
-  function handleUpdate() {
-    console.log("WIP");
-  }
   return (
     <div class="card bg-base-100 shadow-xl my-4">
       <div class="card-body">
@@ -71,19 +68,11 @@ export default ({ data }: Props) => {
                       </A>
                     </td>
                     <td class="flex items-center gap-2 ">
-                      <VoteButton
-                        item={item}
-                        onUpdate={handleUpdate}
-                        type="like"
-                      />
+                      <VoteButton item={item} type="like" />
                       <span class="basis-10 text-center text-lg">
                         {item.likes}
                       </span>
-                      <VoteButton
-                        item={item}
-                        onUpdate={handleUpdate}
-                        type="dislike"
-                      />
+                      <VoteButton item={item} type="dislike" />
                     </td>
                     <td class="text-center">
                       <A

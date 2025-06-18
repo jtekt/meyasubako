@@ -1,11 +1,14 @@
 // NOTE: 'use' router primitives can be only used inside a Route
 import { action, query, redirect } from "@solidjs/router";
 import prisma from "~/lib/prisma";
+
 type Vote = "like" | "dislike";
 
 export const getItems = query(
-  async ({ parent_id, search }: { parent_id?: number; search: any }) => {
+  async (parent_id?: number | null, searchParams?: string) => {
     "use server";
+
+    // PROBLEM: searchParams does not use the latest
 
     const {
       skip = "0",

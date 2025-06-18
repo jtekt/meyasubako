@@ -1,10 +1,10 @@
 import { For } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, AccessorWithLatest } from "@solidjs/router";
 import { VsHome } from "solid-icons/vs";
-import { Prisma } from "~/src/generated/prisma";
+import { Prisma } from "~/generated/prisma";
 // import { t } from "./LocaleSelector";
 
-type Props = { item: any };
+type Props = { item: AccessorWithLatest<Prisma.itemSelect> };
 
 export default ({ item }: Props) => {
   const getParentsRecursively = (item: any) => {

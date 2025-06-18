@@ -3,16 +3,16 @@ import { FaRegularThumbsUp, FaRegularThumbsDown } from "solid-icons/fa";
 import { votes, setVotes } from "../store";
 import { useAction } from "@solidjs/router";
 import { registerVote } from "~/lib";
+import { Prisma } from "~/generated/prisma";
 
 type Vote = "like" | "dislike";
-// TODO: better typing
+
 type Props = {
   type: Vote;
-  item: any;
-  onUpdate: Function;
+  item: Prisma.itemSelect;
 };
 
-export default ({ type, item, onUpdate }: Props) => {
+export default ({ type, item }: Props) => {
   const voteAction = useAction(registerVote);
 
   const [loading, setLoading] = createSignal(false);
