@@ -4,13 +4,13 @@ import NewItemForm from "~/components/NewItemForm";
 import { getItems } from "~/lib";
 
 // Not necessary
-export const route = {
-  preload: ({ location }) => getItems(null, location.search),
-} satisfies RouteDefinition;
+// export const route = {
+//   preload: ({ location }) => getItems({searchParams: location.search}),
+// } satisfies RouteDefinition;
 
 export default function Items() {
   const location = useLocation();
-  const data = createAsync((e) => getItems(null, location.search));
+  const data = createAsync(() => getItems({ searchParams: location.search }));
 
   return (
     <div>

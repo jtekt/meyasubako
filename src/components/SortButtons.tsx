@@ -1,7 +1,9 @@
 import { useSearchParams } from "@solidjs/router";
 import { FaSolidArrowDown, FaSolidArrowUp } from "solid-icons/fa";
 
-export default ({ sort }: any) => {
+type Props = { sort: string };
+
+export default ({ sort }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function applySort(order: string) {
@@ -13,7 +15,7 @@ export default ({ sort }: any) => {
     const { sort: currentSort = "time", order: currentOrder = "desc" } =
       searchParams;
     if (currentSort === sort && currentOrder === newOrder)
-      out = `${out} btn-active`;
+      out = `${out} btn-primary`;
     else out = `${out} btn-ghost`;
     return out;
   }

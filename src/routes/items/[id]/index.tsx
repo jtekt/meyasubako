@@ -6,23 +6,31 @@ import {
   RouteDefinition,
   useLocation,
   useParams,
-  useSearchParams,
 } from "@solidjs/router";
 import { getItems, getItem } from "~/lib";
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { Show } from "solid-js";
 
 // Not necessary
-export const route = {
-  preload: (e) => getItems(Number(e.params.id), e.location.search),
-} satisfies RouteDefinition;
+// export const route = {
+//   preload: ({ params, location }) =>
+//     getItems({
+//       parent_id: Number(params.id),
+//       searchParams: location.search,
+//     }),
+// } satisfies RouteDefinition;
 
 export default function Item() {
   const params = useParams();
   const location = useLocation();
 
   const item = createAsync(() => getItem(Number(params.id)));
-  const data = createAsync(() => getItems(Number(params.id), location.search));
+  const data = createAsync(() =>
+    getItems({
+      parent_id: Number(params.id),
+      searchParams: location.search,
+    })
+  );
 
   return (
     <Show when={item()}>

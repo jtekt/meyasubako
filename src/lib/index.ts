@@ -4,51 +4,61 @@ import prisma from "~/lib/prisma";
 
 type Vote = "like" | "dislike";
 
-export const getItems = query(
-  async (parent_id?: number | null, searchParams?: string) => {
-    "use server";
+type GetItemOpts = {
+  parent_id?: number | null;
+  searchParams?: string;
+};
 
-    // PROBLEM: searchParams does not use the latest
+export const getItems = query(async (opts: GetItemOpts) => {
+  "use server";
 
-    const {
-      skip = "0",
-      take = "100",
-      sort = "time",
-      order = "desc",
-      min_likes = "-5",
-      // parent_id,
-      // search,
-    } = {};
+  const { parent_id, searchParams: searchParamsString } = opts;
+  const searchParams = new URLSearchParams(searchParamsString);
 
-    const baseQuery: any = {
-      where: {
-        likes: {
-          gte: Number(min_likes),
-        },
+  // PROBLEM: searchParams does not use the latest
+
+  // const {
+  //   skip = "0",
+  //   take = "100",
+  //   sort = "time",
+  //   order = "desc",
+  //   min_likes = "-5",
+  //   // parent_id,
+  //   // search,
+  // } = {};
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "100";
+  const sort = searchParams.get("sort") || "time";
+  const order = searchParams.get("order") || "desc";
+  const search = searchParams.get("search");
+
+  const baseQuery: any = {
+    where: {
+      likes: {
+        gte: -5,
       },
-    };
+    },
+  };
 
-    if (parent_id) baseQuery.where.parent_id = parent_id;
-    else baseQuery.where.parent_id = null;
+  if (parent_id) baseQuery.where.parent_id = parent_id;
+  else baseQuery.where.parent_id = null;
+  if (search)
+    baseQuery.where.content = { contains: search, mode: "insensitive" };
 
-    //   if (search)
-    //     baseQuery.where.content = { contains: search, mode: "insensitive" }
+  const fullQuery = {
+    ...baseQuery,
+    include: { comments: true },
+    skip: Number(skip),
+    take: Number(take),
+    orderBy: [{ [sort]: order }],
+  };
 
-    const fullQuery = {
-      ...baseQuery,
-      include: { comments: true },
-      skip: Number(skip),
-      take: Number(take),
-      orderBy: [{ [sort]: order }],
-    };
+  const items = await prisma.item.findMany(fullQuery);
+  const total = await prisma.item.count(baseQuery);
 
-    const items = await prisma.item.findMany(fullQuery);
-    const total = await prisma.item.count(baseQuery);
-
-    return { skip, take, total, items };
-  },
-  "items"
-);
+  return { skip, take, total, items };
+}, "items");
 
 const includeParents = (layer = 0): any => {
   // Get parents recursively

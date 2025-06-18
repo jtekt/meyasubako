@@ -21,14 +21,14 @@ export default ({ data }: Props) => {
   return (
     <div class="card bg-base-100 shadow-xl my-4">
       <div class="card-body">
-        <h2 class="card-title">
-          {/* {t(type === "comments" ? "comments" : "items")} */}(
+        {/* <h2 class="card-title">
+          {t(type === "comments" ? "comments" : "items")}(
           {data()?.total})
-        </h2>
+        </h2> */}
         <Show when={data()?.total}>
           <div>
             Search
-            {/* <SearchBox /> */}
+            <SearchBox />
           </div>
           <table class="table">
             <thead>
@@ -36,7 +36,7 @@ export default ({ data }: Props) => {
                 <th>
                   Date
                   {/* {t("date")} */}
-                  {/* <SortButtons sort="time" /> */}
+                  <SortButtons sort="time" />
                 </th>
                 <th>
                   Content
@@ -45,7 +45,7 @@ export default ({ data }: Props) => {
                 <th>
                   Likes
                   {/* {t("likes")} */}
-                  {/* <SortButtons sort="likes" /> */}
+                  <SortButtons sort="likes" />
                 </th>
                 <th>
                   Comments
