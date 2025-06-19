@@ -2,12 +2,15 @@ import { For, ErrorBoundary, Suspense } from "solid-js";
 import { formatDate } from "../lib/utils";
 import { FaRegularComment, FaRegularThumbsUp } from "solid-icons/fa";
 // import { createIntersectionObserver } from "@solid-primitives/intersection-observer";
-import VoteButton from "~/components//VoteButton";
+// import VoteButton from "~/components//VoteButton";
 import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 import { BsCalendar } from "solid-icons/bs";
 import { A, createAsync, useLocation, useParams } from "@solidjs/router";
 import { getItems } from "~/lib";
+import { clientOnly } from "@solidjs/start";
+
+const VoteButton = clientOnly(() => import("~/components/VoteButton"));
 
 export default () => {
   const location = useLocation();
@@ -18,7 +21,13 @@ export default () => {
 
   return (
     <ErrorBoundary fallback={<div>Something went wrong!</div>}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div class="text-center">
+            <span class="loading loading-spinner loading-lg" />
+          </div>
+        }
+      >
         <div class="card bg-base-100 shadow-xl my-4">
           <div class="card-body">
             <SearchBox />

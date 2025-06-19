@@ -1,7 +1,6 @@
 import { createStore } from "solid-js/store";
 // import { cookieStorage, makePersisted } from "@solid-primitives/storage";
 
-// TODO: remember what this is for
 export const [votes, setVotes] = createStore<
   { item_id: number; type: string }[]
 >([]);

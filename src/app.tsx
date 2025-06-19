@@ -1,7 +1,10 @@
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
+import { clientOnly } from "@solidjs/start";
 import "./app.css";
+
+const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
 
 export default function App() {
   return (
@@ -22,12 +25,12 @@ export default function App() {
             <a href="/logout" class="btn btn-ghost btn-circle">
               <IoLogOut size={24} />
             </a>
-          </Show>
+          </Show>*/}
 
-          <ThemeButton /> */}
+              <ThemeButton />
             </div>
           </header>
-          <main class="max-w-7xl mx-auto min-h-screen">
+          <main class="max-w-7xl mx-auto min-h-screen px-4">
             <Suspense>{props.children}</Suspense>
           </main>
           <footer class="footer footer-center p-2 bg-neutral text-neutral-content">

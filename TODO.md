@@ -1,0 +1,2 @@
+- [ ] Infinite scrolling or at lease pagination
+- [ ] Localstorage for votes
