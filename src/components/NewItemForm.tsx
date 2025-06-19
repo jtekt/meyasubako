@@ -1,27 +1,11 @@
 import { IoSend } from "solid-icons/io";
-import { action, useSubmission } from "@solidjs/router";
-import prisma from "~/lib/prisma";
+import { useSubmission } from "@solidjs/router";
+import { registerItem } from "~/lib";
 
 type Props = {
   type?: "comment" | "item";
-  parent_id?: number;
+  parent_id?: number | string | null;
 };
-
-export const registerItem = action(async (formData: FormData) => {
-  "use server";
-  const content = formData.get("content") as string;
-  // TODO: not very clean
-  const parent_id = (formData.get("parent_id") || undefined) as
-    | string
-    | undefined;
-
-  if (!content) throw new Error("Missing content");
-  return prisma.item.create({
-    data: { parent_id: Number(parent_id), content },
-  });
-
-  // TODO: redirect
-}, "registerItem");
 
 export default ({ parent_id, type = "item" }: Props) => {
   // Hydration mismatch here
@@ -34,11 +18,7 @@ export default ({ parent_id, type = "item" }: Props) => {
           {/* {t(type === "comment" ? "newComment" : "newItem")} */}
         </h2>
 
-        <form
-          // action={registerItem}
-          method="post"
-          class="flex gap-2 my-2"
-        >
+        <form action={registerItem} method="post" class="flex gap-2 my-2">
           {/* TODO: Not very clean */}
           <input type="hidden" name="parent_id" value={parent_id || ""} />
           <div class="form-control w-full">
@@ -51,7 +31,7 @@ export default ({ parent_id, type = "item" }: Props) => {
           <button
             class="btn btn-primary"
             type="submit"
-            // disabled={submission.pending}
+            disabled={submission.pending}
           >
             <IoSend size={24} />
           </button>

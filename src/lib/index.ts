@@ -4,8 +4,24 @@ import prisma from "~/lib/prisma";
 
 type Vote = "like" | "dislike";
 
+export const registerItem = action(async (formData: FormData) => {
+  "use server";
+  const content = formData.get("content") as string;
+  // TODO: not very clean
+  const parent_id = (formData.get("parent_id") || undefined) as
+    | string
+    | undefined;
+
+  if (!content) throw new Error("Missing content");
+  return prisma.item.create({
+    data: { parent_id: Number(parent_id), content },
+  });
+
+  // TODO: redirect
+}, "registerItem");
+
 type GetItemOpts = {
-  parent_id?: number | null;
+  parent_id?: number | string | null;
   searchParams?: string;
 };
 
@@ -14,18 +30,6 @@ export const getItems = query(async (opts: GetItemOpts) => {
 
   const { parent_id, searchParams: searchParamsString } = opts;
   const searchParams = new URLSearchParams(searchParamsString);
-
-  // PROBLEM: searchParams does not use the latest
-
-  // const {
-  //   skip = "0",
-  //   take = "100",
-  //   sort = "time",
-  //   order = "desc",
-  //   min_likes = "-5",
-  //   // parent_id,
-  //   // search,
-  // } = {};
 
   const skip = searchParams.get("skip") || "0";
   const take = searchParams.get("take") || "100";
@@ -41,7 +45,7 @@ export const getItems = query(async (opts: GetItemOpts) => {
     },
   };
 
-  if (parent_id) baseQuery.where.parent_id = parent_id;
+  if (parent_id) baseQuery.where.parent_id = Number(parent_id);
   else baseQuery.where.parent_id = null;
   if (search)
     baseQuery.where.content = { contains: search, mode: "insensitive" };
@@ -60,7 +64,7 @@ export const getItems = query(async (opts: GetItemOpts) => {
   return { skip, take, total, items };
 }, "items");
 
-const includeParents = (layer = 0): any => {
+function includeParents(layer = 0): any {
   // Get parents recursively
   layer++;
   const max_layer = 50;
@@ -69,16 +73,15 @@ const includeParents = (layer = 0): any => {
       parent: layer < max_layer ? includeParents(layer) : false,
     },
   };
-};
+}
 
-export const getItem = query(async (id: number) => {
+export const getItem = query(async (id: number | string) => {
   "use server";
   const query = {
-    where: { id },
+    where: { id: Number(id) },
     ...includeParents(),
   };
-  const item = await prisma.item.findUnique(query);
-  return item;
+  return await prisma.item.findUnique(query);
 }, "item");
 
 export const registerVote = action(async (id: number, vote: Vote) => {
@@ -95,55 +98,3 @@ export const registerVote = action(async (id: number, vote: Vote) => {
     data: { likes: { increment } },
   });
 }, "vote");
-
-// import {
-//   getSession,
-//   login,
-//   logout as logoutSession,
-//   register,
-//   validatePassword,
-//   validateUsername
-// } from "./server";
-
-// export const getUser = query(async () => {
-//   "use server";
-//   try {
-//     const session = await getSession();
-//     const userId = session.data.userId;
-//     if (userId === undefined) throw new Error("User not found");
-//     const user = await db.user.findUnique({ where: { id: userId } });
-//     if (!user) throw new Error("User not found");
-//     return { id: user.id, username: user.username };
-//   } catch {
-//     await logoutSession();
-//     throw redirect("/login");
-//   }
-// }, "user");
-
-// export const loginOrRegister = action(async (formData: FormData) => {
-//   "use server";
-//   const username = String(formData.get("username"));
-//   const password = String(formData.get("password"));
-//   const loginType = String(formData.get("loginType"));
-//   let error = validateUsername(username) || validatePassword(password);
-//   if (error) return new Error(error);
-
-//   try {
-//     const user = await (loginType !== "login"
-//       ? register(username, password)
-//       : login(username, password));
-//     const session = await getSession();
-//     await session.update(d => {
-//       d.userId = user.id;
-//     });
-//   } catch (err) {
-//     return err as Error;
-//   }
-//   return redirect("/");
-// });
-
-// export const logout = action(async () => {
-//   "use server";
-//   await logoutSession();
-//   return redirect("/login");
-// });

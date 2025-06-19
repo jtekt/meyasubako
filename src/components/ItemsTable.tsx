@@ -1,101 +1,90 @@
-import { For, createEffect, createSignal, Show, on } from "solid-js";
+import { For, ErrorBoundary, Suspense } from "solid-js";
 import { formatDate } from "../lib/utils";
-import { FaRegularComment } from "solid-icons/fa";
+import { FaRegularComment, FaRegularThumbsUp } from "solid-icons/fa";
 // import { createIntersectionObserver } from "@solid-primitives/intersection-observer";
 import VoteButton from "~/components//VoteButton";
 import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
-// import { t } from "~/components/LocaleSelector";
-import { A, AccessorWithLatest } from "@solidjs/router";
-import { Prisma } from "~/generated/prisma";
+import { BsCalendar } from "solid-icons/bs";
+import { A, createAsync, useLocation, useParams } from "@solidjs/router";
+import { getItems } from "~/lib";
 
-type Props = {
-  // type?: "items" | "comments";
-  data: AccessorWithLatest<{
-    total: number;
-    items: Prisma.itemSelect[];
-  }>;
-};
+export default () => {
+  const location = useLocation();
+  const params = useParams();
+  const data = createAsync(() =>
+    getItems({ parent_id: params.id, searchParams: location.search })
+  );
 
-export default ({ data }: Props) => {
   return (
-    <div class="card bg-base-100 shadow-xl my-4">
-      <div class="card-body">
-        {/* <h2 class="card-title">
-          {t(type === "comments" ? "comments" : "items")}(
-          {data()?.total})
-        </h2> */}
-        <Show when={data()?.total}>
-          <div>
-            Search
+    <ErrorBoundary fallback={<div>Something went wrong!</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div class="card bg-base-100 shadow-xl my-4">
+          <div class="card-body">
             <SearchBox />
-          </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>
-                  Date
-                  {/* {t("date")} */}
-                  <SortButtons sort="time" />
-                </th>
-                <th>
-                  Content
-                  {/* {t("content")} */}
-                </th>
-                <th>
-                  Likes
-                  {/* {t("likes")} */}
-                  <SortButtons sort="likes" />
-                </th>
-                <th>
-                  Comments
-                  {/* {t("comments")} */}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <For each={data()?.items || []}>
-                {(item: any) => (
-                  <tr>
-                    <td class="text-gray-500">{formatDate(item.time)}</td>
-                    <td class="w-full">
-                      <A
-                        class="w-full"
-                        href={`/items/${item.id}`}
-                        style="display: block; white-space: pre-line;"
-                      >
-                        {item.content}
-                      </A>
-                    </td>
-                    <td class="flex items-center gap-2 ">
-                      <VoteButton item={item} type="like" />
-                      <span class="basis-10 text-center text-lg">
-                        {item.likes}
-                      </span>
-                      <VoteButton item={item} type="dislike" />
-                    </td>
-                    <td class="text-center">
-                      <A
-                        href={`/items/${item.id}`}
-                        class="btn flex flex-nowrap btn-outline"
-                      >
-                        <FaRegularComment size={18} />
-                        {/* {item.comments.length} */}
-                      </A>
-                    </td>
-                  </tr>
-                )}
-              </For>
-            </tbody>
-          </table>
-        </Show>
-        {/* <Show when={loading()}>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="flex gap-2 items-center ">
+                    <BsCalendar size={16} />
+                    <SortButtons sort="time" />
+                  </th>
+                  <th>{/* TODO: icon */}</th>
+                  <th class="flex gap-2 items-center justify-center">
+                    <FaRegularThumbsUp size={16} />
+                    <SortButtons sort="likes" />
+                  </th>
+                  <th>
+                    <FaRegularComment size={16} />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <For each={data()?.items}>
+                  {(item) => (
+                    <tr>
+                      <td class="text-gray-500">{formatDate(item.time)}</td>
+                      <td class="w-full">
+                        <A
+                          class="w-full"
+                          href={`/items/${item.id}`}
+                          style="display: block; white-space: pre-line;"
+                        >
+                          {item.content}
+                        </A>
+                      </td>
+                      <td class="flex items-center gap-2 ">
+                        <VoteButton item={item} type="like" />
+                        <span class="basis-10 text-center text-lg">
+                          {item.likes}
+                        </span>
+                        <VoteButton item={item} type="dislike" />
+                      </td>
+                      <td class="text-center">
+                        <A
+                          href={`/items/${item.id}`}
+                          class="btn flex flex-nowrap btn-outline"
+                        >
+                          <FaRegularComment size={18} />
+                          {/* TODO: why is TS complaining here? */}
+                          {item.comments?.length}
+                        </A>
+                      </td>
+                    </tr>
+                  )}
+                </For>
+              </tbody>
+            </table>
+            {/* TODO: Intersection */}
+            {/* <Show when={loading()}>
           <div class="text-center">
             <span class="loading loading-spinner loading-lg" />
           </div>
         </Show> */}
-        {/* <div ref={(el) => setIntersectionObserverTargets((p) => [...p, el])} /> */}
-      </div>
-    </div>
+            {/* <div ref={(el) => setIntersectionObserverTargets((p) => [...p, el])} /> */}
+          </div>
+        </div>
+      </Suspense>
+    </ErrorBoundary>
   );
 };

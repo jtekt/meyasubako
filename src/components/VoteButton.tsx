@@ -9,7 +9,7 @@ type Vote = "like" | "dislike";
 
 type Props = {
   type: Vote;
-  item: Prisma.itemSelect;
+  item: Prisma.itemModel;
 };
 
 export default ({ type, item }: Props) => {
