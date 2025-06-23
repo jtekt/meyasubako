@@ -1,2 +1,4 @@
-- [ ] Infinite scrolling or at lease pagination
-- [ ] Localstorage for votes
+- [ ] Infinite scrolling or at least pagination
+  - [ ] Pagination have fixed page size
+- [x] Localstorage for votes
+  - [ ] Without using ClientOnly

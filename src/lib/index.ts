@@ -4,6 +4,8 @@ import prisma from "~/lib/prisma";
 
 type Vote = "like" | "dislike";
 
+export const pageSize = 5;
+
 export const registerItem = action(async (formData: FormData) => {
   "use server";
   const content = formData.get("content") as string;
@@ -31,8 +33,7 @@ export const getItems = query(async (opts: GetItemOpts) => {
   const { parent_id, searchParams: searchParamsString } = opts;
   const searchParams = new URLSearchParams(searchParamsString);
 
-  const skip = searchParams.get("skip") || "0";
-  const take = searchParams.get("take") || "100";
+  const page = searchParams.get("page") || "1";
   const sort = searchParams.get("sort") || "time";
   const order = searchParams.get("order") || "desc";
   const search = searchParams.get("search");
@@ -50,18 +51,20 @@ export const getItems = query(async (opts: GetItemOpts) => {
   if (search)
     baseQuery.where.content = { contains: search, mode: "insensitive" };
 
+  const skip = (Number(page) - 1) * Number(pageSize);
+
   const fullQuery = {
     ...baseQuery,
     include: { comments: true },
-    skip: Number(skip),
-    take: Number(take),
+    skip,
+    take: Number(pageSize),
     orderBy: [{ [sort]: order }],
   };
 
   const items = await prisma.item.findMany(fullQuery);
   const total = await prisma.item.count(baseQuery);
 
-  return { skip, take, total, items };
+  return { page: Number(page), pageSize, total, items };
 }, "items");
 
 function includeParents(layer = 0): any {

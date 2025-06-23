@@ -25,7 +25,7 @@ export default () => {
           class="input input-bordered w-full"
         />
       </div>
-      <button class="btn" type="submit">
+      <button class="btn btn-outline" type="submit">
         <FiSearch size={24} />
       </button>
     </form>

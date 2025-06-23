@@ -1,15 +1,15 @@
-import { For, ErrorBoundary, Suspense } from "solid-js";
+import { For, ErrorBoundary, Suspense, Show } from "solid-js";
 import { formatDate } from "../lib/utils";
 import { FaRegularComment, FaRegularThumbsUp } from "solid-icons/fa";
-// import { createIntersectionObserver } from "@solid-primitives/intersection-observer";
-// import VoteButton from "~/components//VoteButton";
 import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 import { BsCalendar } from "solid-icons/bs";
 import { A, createAsync, useLocation, useParams } from "@solidjs/router";
 import { getItems } from "~/lib";
 import { clientOnly } from "@solidjs/start";
+import Pagination from "./Pagination";
 
+// TODO: find way to not have to use this
 const VoteButton = clientOnly(() => import("~/components/VoteButton"));
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
   );
 
   return (
-    <ErrorBoundary fallback={<div>Something went wrong!</div>}>
+    <ErrorBoundary fallback={<div>Error</div>}>
       <Suspense
         fallback={
           <div class="text-center">
@@ -76,6 +76,7 @@ export default () => {
                         >
                           <FaRegularComment size={18} />
                           {/* TODO: why is TS complaining here? */}
+                          {/* @ts-ignore */}
                           {item.comments?.length}
                         </A>
                       </td>
@@ -84,13 +85,15 @@ export default () => {
                 </For>
               </tbody>
             </table>
-            {/* TODO: Intersection */}
-            {/* <Show when={loading()}>
-          <div class="text-center">
-            <span class="loading loading-spinner loading-lg" />
-          </div>
-        </Show> */}
-            {/* <div ref={(el) => setIntersectionObserverTargets((p) => [...p, el])} /> */}
+            <Show
+              when={
+                data()?.total &&
+                data()?.pageSize &&
+                data().total > data().pageSize
+              }
+            >
+              <Pagination total={data()?.total} pageSize={data()?.pageSize} />
+            </Show>
           </div>
         </div>
       </Suspense>
