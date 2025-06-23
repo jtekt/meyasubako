@@ -1,10 +1,9 @@
 import { ErrorBoundary, For, Show, Suspense } from "solid-js";
 import { A, AccessorWithLatest, createAsync, useParams } from "@solidjs/router";
 import { VsHome } from "solid-icons/vs";
-import { Prisma } from "~/generated/prisma";
 import { getItem } from "~/lib";
 
-type Props = { item: AccessorWithLatest<any> };
+// type Props = { item: AccessorWithLatest<any> };
 
 export default () => {
   function getParentsRecursively(item: any) {
