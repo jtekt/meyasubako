@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @plugin "daisyui";
+/* PROBLEM: the following only gets applied AFTER initial render */
+/* @plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #c00000;
+}
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  --color-primary: #c00000;
+} */

@@ -9,7 +9,7 @@ import { getItems } from "~/lib";
 import { clientOnly } from "@solidjs/start";
 import Pagination from "./Pagination";
 
-// TODO: find way to not have to use this
+// TODO: find way to not have to use clientOnly
 const VoteButton = clientOnly(() => import("~/components/VoteButton"));
 
 export default () => {
@@ -43,7 +43,7 @@ export default () => {
                     <FaRegularThumbsUp size={16} />
                     <SortButtons sort="likes" />
                   </th>
-                  <th>
+                  <th class="text-center">
                     <FaRegularComment size={16} />
                   </th>
                 </tr>
@@ -89,6 +89,7 @@ export default () => {
               when={
                 data()?.total &&
                 data()?.pageSize &&
+                // @ts-ignore
                 data().total > data().pageSize
               }
             >

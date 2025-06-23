@@ -19,7 +19,7 @@ export default ({ parent_id, type = "item" }: Props) => {
         </h2> */}
 
         <form action={registerItem} method="post" class="flex gap-2 my-2">
-          {/* TODO: Not very clean */}
+          {/* TODO: hidden field not very clean */}
           <input type="hidden" name="parent_id" value={parent_id || ""} />
           <div class="form-control w-full">
             <textarea

@@ -1,6 +1,6 @@
 // @refresh reload
 import { mount, StartClient } from "@solidjs/start/client";
-import { setVotes, votes } from "./store";
+import { setVotes } from "./store";
 
 mount(() => {
   const votesString = localStorage.getItem("votes") || "[]";

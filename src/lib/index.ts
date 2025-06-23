@@ -15,11 +15,11 @@ export const registerItem = action(async (formData: FormData) => {
     | undefined;
 
   if (!content) throw new Error("Missing content");
-  return prisma.item.create({
+  const newItem = await prisma.item.create({
     data: { parent_id: Number(parent_id), content },
   });
 
-  // TODO: redirect
+  throw redirect(`/items/${newItem.id}`);
 }, "registerItem");
 
 type GetItemOpts = {

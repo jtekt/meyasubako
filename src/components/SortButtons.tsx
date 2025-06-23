@@ -21,7 +21,7 @@ export default ({ sort }: Props) => {
   }
 
   return (
-    <span class="mx-2">
+    <span class="mx-2 flex gap-1">
       <button class={buttonClass("desc")} onClick={() => applySort("desc")}>
         <FaSolidArrowDown />
       </button>
