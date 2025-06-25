@@ -1,0 +1,37 @@
+stages:
+  - build
+  # - deploy
+
+variables:
+  APPLICATION_NAME: meyasubako
+  TAG_PREFIX: solidstart
+  CONTAINER_IMAGE: ${AWS_ECR_PUBLIC_URL}/${APPLICATION_NAME}
+  CONTAINER_IMAGE_TAGGED: ${CONTAINER_IMAGE}:solidstart-${CI_COMMIT_SHORT_SHA}
+  # K8S_RESOURCE_NAME: ${APPLICATION_NAME}-${TAG_PREFIX}
+
+image: moreillon/ci-dind
+services:
+  - name: docker:24.0.7-dind
+
+build:
+  stage: build
+  only:
+    - solidstart
+  before_script:
+    # Registry login
+    - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ECR_PUBLIC_URL}
+    # Create repository in ECR if it does not exist yet
+    - >
+      aws ecr-public create-repository --region us-east-1 --repository-name ${APPLICATION_NAME}
+      || echo "Repository might have already existed"
+  script:
+    - docker build -t ${CONTAINER_IMAGE_TAGGED} .
+    - docker push ${CONTAINER_IMAGE_TAGGED}
+# deploy:
+#   stage: deploy
+#   only:
+#     - nuxt
+#   before_script:
+#     - kubectl config use-context moreillon_ci/moreillon_k8s_home/kubernetes-agent:home-talos
+#   script:
+#     - envsubst < kubernetes_manifest.yml | kubectl apply -n ${KUBERNETES_NAMESPACE} -f -
