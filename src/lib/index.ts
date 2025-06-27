@@ -8,16 +8,16 @@ export const pageSize = 10;
 
 export const registerItem = action(async (formData: FormData) => {
   "use server";
-  const content = formData.get("content") as string;
   // TODO: not very clean
-  const parent_id = (formData.get("parent_id") || undefined) as
-    | string
-    | undefined;
+  const content = formData.get("content") as string | undefined;
+  const parent_id = formData.get("parent_id") as string | undefined;
 
   if (!content) throw new Error("Missing content");
-  const newItem = await prisma.item.create({
-    data: { parent_id: Number(parent_id), content },
-  });
+
+  const data: { content: string; parent_id?: number } = { content };
+  if (parent_id) data.parent_id = Number(parent_id);
+
+  const newItem = await prisma.item.create({ data });
 
   throw redirect(`/items/${newItem.id}`);
 }, "registerItem");
