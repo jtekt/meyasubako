@@ -4,7 +4,7 @@ import prisma from "~/lib/prisma";
 
 type Vote = "like" | "dislike";
 
-export const pageSize = 5;
+export const pageSize = 10;
 
 export const registerItem = action(async (formData: FormData) => {
   "use server";
