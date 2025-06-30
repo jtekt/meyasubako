@@ -2,7 +2,7 @@ import { For, Show } from "solid-js";
 import { A, AccessorWithLatest } from "@solidjs/router";
 import { VsHome } from "solid-icons/vs";
 
-// TODO: typinh
+// TODO: typing
 type Props = { item: AccessorWithLatest<any> };
 
 export default ({ item }: Props) => {

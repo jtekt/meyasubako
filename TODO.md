@@ -5,3 +5,5 @@
 - [ ] i18n
 - [ ] Theme customization not applied when SSR
 - [ ] Show item on item page
+- [ ] Error handling
+- [ ] Type inference from Prisma

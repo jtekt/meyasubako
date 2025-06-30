@@ -3,7 +3,7 @@ import { FaRegularCalendar } from "solid-icons/fa";
 import VoteButton from "./VoteButton";
 import { formatDate } from "~/lib/utils";
 
-// TODO: typinh
+// TODO: typing
 type Props = { item: AccessorWithLatest<any> };
 
 export default ({ item }: Props) => {

@@ -9,8 +9,9 @@ export const pageSize = 10;
 export const registerItem = action(async (formData: FormData) => {
   "use server";
   // TODO: not very clean
-  const content = formData.get("content") as string | undefined;
-  const parent_id = formData.get("parent_id") as string | undefined;
+
+  const content = formData.get("content") as string | null;
+  const parent_id = formData.get("parent_id");
 
   if (!content) throw new Error("Missing content");
 
