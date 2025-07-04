@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
 /* PROBLEM: the following only gets applied AFTER initial render */
 /* @plugin "daisyui/theme" {
   name: "light";

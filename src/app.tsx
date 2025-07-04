@@ -1,9 +1,9 @@
+import "./app.css";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
 import { clientOnly } from "@solidjs/start";
 import { MetaProvider, Title } from "@solidjs/meta";
-import "./app.css";
 
 const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
 
