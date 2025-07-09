@@ -1,6 +1,7 @@
 import { useSubmission } from "@solidjs/router";
 import { registerItem } from "~/lib";
 import { FaSolidPlus } from "solid-icons/fa";
+import { t } from "./LocaleSelector";
 
 type Props = {
   type?: "comment" | "item";
@@ -14,9 +15,9 @@ export default ({ parent_id, type = "item" }: Props) => {
   return (
     <div class="card bg-base-100 shadow-xl my-4">
       <div class="card-body">
-        {/* <h2 class="card-title">
-          {t(type === "comment" ? "newComment" : "newItem")} 
-        </h2> */}
+        <h2 class="card-title">
+          {t(type === "comment" ? "newComment" : "newItem")}
+        </h2>
 
         <form action={registerItem} method="post" class="flex gap-2 my-2">
           {/* TODO: hidden field not very clean */}

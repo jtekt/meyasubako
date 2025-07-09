@@ -1,9 +1,10 @@
 import "./app.css";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { Suspense } from "solid-js";
+import { createResource, createSignal, Suspense } from "solid-js";
 import { clientOnly } from "@solidjs/start";
 import { MetaProvider, Title } from "@solidjs/meta";
+import LocaleSelector from "./components/LocaleSelector";
 
 const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
 
@@ -24,13 +25,13 @@ export default function App() {
               />
               <span>目安箱</span>
               <div class="ml-auto">
-                {/* <LocaleSelector />
+                <LocaleSelector />
 
-          <Show when={VITE_LOGIN_URL && authData.jwt}>
-            <a href="/logout" class="btn btn-ghost btn-circle">
-              <IoLogOut size={24} />
-            </a>
-          </Show>*/}
+                {/*  <Show when={VITE_LOGIN_URL && authData.jwt}>
+                <a href="/logout" class="btn btn-ghost btn-circle">
+                  <IoLogOut size={24} />
+                </a>
+              </Show>*/}
 
                 <ThemeButton />
               </div>
