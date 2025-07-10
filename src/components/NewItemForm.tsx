@@ -27,6 +27,7 @@ export default ({ parent_id, type = "item" }: Props) => {
               name="content"
               class="textarea textarea-bordered w-full"
               rows="1"
+              placeholder={t("content")}
             />
           </div>
           <button
