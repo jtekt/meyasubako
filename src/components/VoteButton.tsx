@@ -32,8 +32,7 @@ export default ({ type, item }: Props) => {
   async function cancelVote() {
     setLoading(true);
 
-    // TODO: understand what K in does
-    const cancelMap: { [K in Vote]: Vote } = {
+    const cancelMap: { [key in Vote]: Vote } = {
       like: "dislike",
       dislike: "like",
     };

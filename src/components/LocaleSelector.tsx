@@ -1,12 +1,14 @@
 import * as i18n from "@solid-primitives/i18n";
-import { createResource, createSignal } from "solid-js";
+import { RiEditorTranslate2 } from "solid-icons/ri";
+import { createResource, createSignal, onMount } from "solid-js";
 import type * as en from "~/i18n/en";
+import { z } from "zod";
 
-// import type * as ja from "./ja.js";
-// import { createSignal } from "solid-js/types/server/reactive.js";
-// import { createResource } from "solid-js/types/server/rendering.js";
+const locales = ["en", "ja"] as const;
 
-export type Locale = "en" | "ja";
+const validLocales = z.union(locales.map((l) => z.literal(l)));
+
+export type Locale = (typeof locales)[number];
 export type RawDictionary = typeof en.dict;
 export type Dictionary = i18n.Flatten<RawDictionary>;
 
@@ -25,26 +27,33 @@ export default () => {
 
   t = i18n.translator(dict);
 
-  // function updateLocale(newLocale: Locale) {
-  //   localStorage.setItem("locale", newLocale);
-  //   setLocale(newLocale);
-  // }
+  function setAndSaveLocale(newLocale: Locale) {
+    setLocale(newLocale);
+    localStorage.setItem("locale", newLocale);
+  }
+
+  onMount(() => {
+    const storedLocale = localStorage.getItem("locale");
+    if (!storedLocale) return;
+    const newLocale = validLocales.parse(storedLocale);
+    setLocale(newLocale);
+  });
 
   return (
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-        {/* <RiEditorTranslate2 /> */}
-        <span>{locale()}</span>
+        <RiEditorTranslate2 size={24} />
+        {/* <span>{locale()}</span> */}
       </div>
       <ul
         tabindex="0"
         class="p-2 shadow menu dropdown-content z-[1] rounded-box bg-black"
       >
         <li>
-          <button onClick={() => setLocale("en")}>EN</button>
+          <button onClick={() => setAndSaveLocale("en")}>English</button>
         </li>
         <li>
-          <button onClick={() => setLocale("ja")}>JA</button>
+          <button onClick={() => setAndSaveLocale("ja")}>日本語</button>
         </li>
       </ul>
     </div>

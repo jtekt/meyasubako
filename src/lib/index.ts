@@ -8,8 +8,8 @@ export const pageSize = 10;
 
 export const registerItem = action(async (formData: FormData) => {
   "use server";
-  // TODO: not very clean
 
+  // TODO: not very clean
   const content = formData.get("content") as string | null;
   const parent_id = formData.get("parent_id");
 
