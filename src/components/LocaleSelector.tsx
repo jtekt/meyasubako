@@ -32,12 +32,12 @@ export default () => {
     localStorage.setItem("locale", newLocale);
   }
 
-  onMount(() => {
-    const storedLocale = localStorage.getItem("locale");
-    if (!storedLocale) return;
-    const newLocale = validLocales.parse(storedLocale);
-    setLocale(newLocale);
-  });
+  // onMount(() => {
+  //   const storedLocale = localStorage.getItem("locale");
+  //   if (!storedLocale) return;
+  //   const newLocale = validLocales.parse(storedLocale);
+  //   setLocale(newLocale);
+  // });
 
   return (
     <div class="dropdown">
