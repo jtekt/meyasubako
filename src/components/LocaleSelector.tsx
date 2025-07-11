@@ -1,7 +1,7 @@
 import { RiEditorTranslate2 } from "solid-icons/ri";
 import { onMount } from "solid-js";
 
-import { Locale, setLocale, validLocales } from "~/i18n";
+import { locale, Locale, setLocale, validLocales } from "~/i18n";
 
 export default () => {
   function setAndSaveLocale(newLocale: Locale) {
@@ -17,7 +17,7 @@ export default () => {
   });
 
   return (
-    <div class="dropdown">
+    <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
         <RiEditorTranslate2 size={24} />
         {/* <span>{locale()}</span> */}
