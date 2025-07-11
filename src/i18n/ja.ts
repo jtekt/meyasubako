@@ -12,4 +12,5 @@ export const dict = {
   comment: "コメント",
   newComment: "コメント新規作成",
   home: "ホーム",
+  noRecordYet: "まだアイテムがない",
 };

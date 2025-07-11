@@ -12,4 +12,5 @@ export const dict = {
   comment: "Comment",
   newComment: "New comment",
   home: "Home",
+  noRecordYet: "No item yet",
 };
