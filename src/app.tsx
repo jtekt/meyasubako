@@ -1,12 +1,12 @@
 import "./app.css";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { createResource, createSignal, Suspense } from "solid-js";
-import { clientOnly } from "@solidjs/start";
+import { Suspense } from "solid-js";
 import { MetaProvider, Title } from "@solidjs/meta";
 import LocaleSelector from "./components/LocaleSelector";
+// import { clientOnly } from "@solidjs/start";
 
-const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
+// const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
 // const LocaleSelector = clientOnly(() => import("./components/LocaleSelector"));
 
 export default function App() {
@@ -34,7 +34,7 @@ export default function App() {
                 </a>
               </Show>*/}
 
-                <ThemeButton />
+                {/* <ThemeButton /> */}
               </div>
             </header>
             <main class="max-w-7xl mx-auto min-h-screen px-4">
