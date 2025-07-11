@@ -20,7 +20,7 @@ export default () => {
   );
 
   return (
-    <ErrorBoundary fallback={<div>Error</div>}>
+    <ErrorBoundary fallback={(error) => <div>Error: {error.message}</div>}>
       <Suspense
         fallback={
           <div class="text-center">

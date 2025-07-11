@@ -1,7 +1,7 @@
 import { useSearchParams } from "@solidjs/router";
 import { createSignal } from "solid-js";
 import { FiSearch } from "solid-icons/fi";
-import { t } from "./LocaleSelector";
+import { t } from "~/i18n";
 
 export default () => {
   const [searchParams, setSearchParams] = useSearchParams();

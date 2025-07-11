@@ -7,6 +7,7 @@ import { MetaProvider, Title } from "@solidjs/meta";
 import LocaleSelector from "./components/LocaleSelector";
 
 const ThemeButton = clientOnly(() => import("./components/ThemeButton"));
+// const LocaleSelector = clientOnly(() => import("./components/LocaleSelector"));
 
 export default function App() {
   return (

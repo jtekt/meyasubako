@@ -1,7 +1,7 @@
 import { useSubmission } from "@solidjs/router";
 import { registerItem } from "~/lib";
 import { FaSolidPlus } from "solid-icons/fa";
-import { t } from "./LocaleSelector";
+import { t } from "~/i18n";
 
 type Props = {
   type?: "comment" | "item";
