@@ -2,6 +2,7 @@ import { useSubmission } from "@solidjs/router";
 import { registerItem } from "~/lib";
 import { FaSolidPlus } from "solid-icons/fa";
 import { t } from "~/i18n";
+import { Show } from "solid-js";
 
 type Props = {
   type?: "comment" | "item";
@@ -35,7 +36,12 @@ export default ({ parent_id, type = "item" }: Props) => {
             type="submit"
             disabled={submission.pending}
           >
-            <FaSolidPlus size={24} />
+            <Show when={submission.pending}>
+              <span class="loading loading-spinner" />
+            </Show>
+            <Show when={!submission.pending}>
+              <FaSolidPlus size={24} />
+            </Show>
           </button>
         </form>
       </div>
