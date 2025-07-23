@@ -1,9 +1,9 @@
-- [ ] Infinite scrolling or at least pagination
+- [x] Pagination
   - [x] Pagination have fixed page size
 - [x] Localstorage for votes
   - [ ] Without using ClientOnly
-- [ ] i18n
+- [x] i18n
 - [ ] Theme customization not applied when SSR
-- [ ] Show item on item page
+- [x] Show item on item page
 - [ ] Error handling
 - [ ] Type inference from Prisma
