@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${APPLICATION_NAME}
+  name: ${K8S_RESOURCE_NAME}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${APPLICATION_NAME}
+      app: ${K8S_RESOURCE_NAME}
   template:
     metadata:
       labels:
-        app: ${APPLICATION_NAME}
+        app: ${K8S_RESOURCE_NAME}
     spec:
       containers:
-        - name: ${APPLICATION_NAME}
+        - name: ${K8S_RESOURCE_NAME}
           image: ${CONTAINER_IMAGE_TAGGED}
-          ports:
-            - containerPort: 80
           envFrom:
             - secretRef:
                 name: meyasubako-env
@@ -25,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${APPLICATION_NAME}
+  name: ${K8S_RESOURCE_NAME}
 spec:
   ports:
-    - port: 80
+    - port: 3000
       nodePort: ${K8S_NODEPORT}
   selector:
-    app: ${APPLICATION_NAME}
+    app: ${K8S_RESOURCE_NAME}
   type: NodePort

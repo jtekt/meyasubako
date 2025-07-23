@@ -1,0 +1,16 @@
+export const dict = {
+  search: "検索",
+  item: "アイテム",
+  items: "アイテム",
+  new: "New",
+  newItem: "アイテム新規作成",
+  content: "内容",
+  likes: "いいね",
+  like: "いいね",
+  date: "日付",
+  comments: "コメント",
+  comment: "コメント",
+  newComment: "コメント新規作成",
+  home: "ホーム",
+  noRecordYet: "まだアイテムがない",
+};

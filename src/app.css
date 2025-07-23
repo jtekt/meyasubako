@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light, dark;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #c00000;
+  --color-primary-content: "#ffffff";
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  /* prefersdark: true; prevents the use of th etheme toggler */
+  prefersdark: true;
+  --color-primary: #c00000;
+  --color-primary-content: "#ffffff";
+}

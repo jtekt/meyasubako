@@ -1,0 +1,16 @@
+export const dict = {
+  search: "Search",
+  item: "Item",
+  items: "Items",
+  new: "New",
+  newItem: "New item",
+  content: "Content",
+  likes: "Likes",
+  like: "Like",
+  date: "Date",
+  comments: "Comments",
+  comment: "Comment",
+  newComment: "New comment",
+  home: "Home",
+  noRecordYet: "No item yet",
+};

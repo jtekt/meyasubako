@@ -1,23 +1,33 @@
 {
-  "name": "mendokusai",
-  "author": "Maxime MOREILLON",
-  "version": "1.0.51",
+  "name": "example-with-prisma",
+  "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
-    "ci-test": "bunx prisma db push && bun test",
-    "start": "bun run src/index.ts",
-    "start:migrate": "bunx prisma migrate deploy && bun run src/index.ts",
-    "start:migrate:resolve": "bunx prisma migrate resolve --applied 0_init && bun run src/index.ts"
-  },
-  "dependencies": {
-    "@elysiajs/cors": "^0.7.2",
-    "@prisma/client": "^5.3.1",
-    "elysia": "1.0.20",
-    "elysia-prometheus-metrics": "^1.2.9"
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
   },
   "devDependencies": {
-    "bun-types": "latest",
-    "prisma": "^5.3.1"
+    "@tailwindcss/vite": "^4.1.10",
+    "@types/node": "^20.12.7",
+    "daisyui": "^5.0.43",
+    "prisma": "^6.9.0",
+    "tailwindcss": "^4.1.10",
+    "tsx": "^4.20.3"
   },
-  "module": "src/index.js"
+  "dependencies": {
+    "@prisma/client": "^6.9.0",
+    "@solid-primitives/i18n": "^2.2.1",
+    "@solid-primitives/intersection-observer": "^2.2.1",
+    "@solid-primitives/storage": "^4.3.2",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.0",
+    "@solidjs/start": "^1.1.0",
+    "solid-icons": "^1.1.0",
+    "solid-js": "^1.9.5",
+    "vinxi": "^0.5.3",
+    "zod": "^4.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }

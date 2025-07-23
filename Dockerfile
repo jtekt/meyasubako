@@ -1,12 +1,9 @@
-FROM oven/bun:1.1.17
-
-WORKDIR /usr/src/app
-
-COPY package*.json bun.lockb ./
-RUN bun install
+FROM node:20
+WORKDIR /app
+COPY package*.json ./
+RUN npm i
 COPY . .
-
-RUN bunx prisma generate
-
-EXPOSE 80
-CMD [ "bun", "run", "start:migrate" ]
+RUN npx prisma generate
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start"]
