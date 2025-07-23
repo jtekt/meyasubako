@@ -31,11 +31,11 @@ export default () => {
       >
         <div class="card bg-base-100 shadow-xl my-4">
           <div class="card-body">
+            <SearchBox />
             <Show when={!data()?.total}>
               <div class="text-center">{t("noRecordYet")}</div>
             </Show>
             <Show when={!!data()?.total}>
-              <SearchBox />
               <table class="table">
                 <thead>
                   <tr>
