@@ -1,6 +1,8 @@
 // NOTE: 'use' router primitives can be only used inside a Route
 import { action, query, redirect } from "@solidjs/router";
 import prisma from "~/lib/prisma";
+import { authEnabled, oidcIdentifier } from "./config";
+import { useUserSession } from "@moreillon/solidstart-oidc";
 
 type Vote = "like" | "dislike";
 
@@ -9,13 +11,23 @@ export const pageSize = 10;
 export const registerItem = action(async (formData: FormData) => {
   "use server";
 
+  let user_id: string | undefined = undefined;
+  if (authEnabled) {
+    const userSession = await useUserSession();
+    user_id = userSession.data.user[oidcIdentifier];
+  }
+
   // TODO: not very clean
   const content = formData.get("content") as string | null;
   const parent_id = formData.get("parent_id");
 
   if (!content) throw new Error("Missing content");
 
-  const data: { content: string; parent_id?: number } = { content };
+  // TODO: typing should be infered from Prisma schema
+  const data: { content: string; parent_id?: number; user_id?: string } = {
+    content,
+    user_id,
+  };
   if (parent_id) data.parent_id = Number(parent_id);
 
   const newItem = await prisma.item.create({ data });

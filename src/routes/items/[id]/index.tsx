@@ -5,7 +5,7 @@ import { createAsync, useParams } from "@solidjs/router";
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { ErrorBoundary, Show, Suspense } from "solid-js";
 
-import { getItem } from "~/lib";
+import { getItem } from "~/lib/items";
 import ItemDetails from "~/components/ItemDetails";
 
 export default function Item() {

@@ -2,7 +2,7 @@ import { createSignal, Show } from "solid-js";
 import { FaRegularThumbsUp, FaRegularThumbsDown } from "solid-icons/fa";
 import { votes, setVotes } from "../store";
 import { useAction } from "@solidjs/router";
-import { registerVote } from "~/lib";
+import { registerVote } from "~/lib/items";
 import { Prisma } from "~/generated/prisma";
 
 type Vote = "like" | "dislike";

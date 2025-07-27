@@ -1,10 +1,9 @@
 import { defineConfig } from "@solidjs/start/config";
 import tailwindcss from "@tailwindcss/vite";
-
-const { OIDC_AUTHORITY } = process.env;
+import { authEnabled } from "./src/lib/config";
 
 export default defineConfig({
-  middleware: OIDC_AUTHORITY ? "src/middleware/oidc.ts" : undefined,
+  middleware: authEnabled ? "src/middleware/oidc.ts" : undefined,
   vite: {
     ssr: { external: ["@prisma/client"] },
     plugins: [tailwindcss()],

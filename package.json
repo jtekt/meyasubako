@@ -15,7 +15,7 @@
     "tsx": "^4.20.3"
   },
   "dependencies": {
-    "@moreillon/solidstart-oidc": "^0.0.22",
+    "@moreillon/solidstart-oidc": "^0.0.23",
     "@prisma/client": "^6.9.0",
     "@solid-primitives/i18n": "^2.2.1",
     "@solid-primitives/intersection-observer": "^2.2.1",

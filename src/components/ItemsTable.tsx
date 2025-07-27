@@ -5,7 +5,7 @@ import SortButtons from "~/components/SortButtons";
 import SearchBox from "~/components/SearchBox";
 import { BsCalendar } from "solid-icons/bs";
 import { A, createAsync, useLocation, useParams } from "@solidjs/router";
-import { getItems } from "~/lib";
+import { getItems } from "~/lib/items";
 import { clientOnly } from "@solidjs/start";
 import Pagination from "./Pagination";
 import { t } from "~/i18n";

@@ -1,5 +1,5 @@
 import { useSubmission } from "@solidjs/router";
-import { registerItem } from "~/lib";
+import { registerItem } from "~/lib/items";
 import { FaSolidPlus } from "solid-icons/fa";
 import { t } from "~/i18n";
 import { Show } from "solid-js";
