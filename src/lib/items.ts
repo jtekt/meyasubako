@@ -27,7 +27,7 @@ export const registerItem = action(async (formData: FormData) => {
   // ADD MODERATE CONTENT
   const moderation = await moderateContent(content);
   console.warn("Moderation result:", moderation);
-  if (moderation.decision !== "allow") {
+  if (moderation.decision === "flag") {
     const data: { content: string; user_id?: string; categories?: string } = {
       content,
       user_id,
