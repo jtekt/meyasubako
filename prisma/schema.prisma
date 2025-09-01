@@ -9,12 +9,20 @@ datasource db {
 }
 
 model item {
-  id         Int       @id(map: "pk_item") @default(autoincrement())
+  id        Int       @id(map: "pk_item") @default(autoincrement())
+  content   String
+  likes     Int?      @default(0)
+  parent_id Int?
+  time      DateTime? @default(now()) @db.Timestamp(6)
+  user_id   String?
+  parent    item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, map: "fk_item_item")
+  comments  item[]    @relation("itemToitem")
+}
+
+model flagged {
+  id         Int       @id(map: "pk_flagged") @default(autoincrement())
   content    String
-  likes      Int?      @default(0)
-  parent_id  Int?
+  categories String?
   time       DateTime? @default(now()) @db.Timestamp(6)
   user_id    String?
-  parent       item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, map: "fk_item_item")
-  comments item[]    @relation("itemToitem")
 }

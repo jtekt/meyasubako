@@ -3,6 +3,7 @@ import { action, query, redirect } from "@solidjs/router";
 import prisma from "~/lib/prisma";
 import { authEnabled, oidcIdentifier } from "./config";
 import { useUserSession } from "@moreillon/solidstart-oidc";
+import { moderateContent } from "./moderation";
 
 type Vote = "like" | "dislike";
 
@@ -22,6 +23,21 @@ export const registerItem = action(async (formData: FormData) => {
   const parent_id = formData.get("parent_id");
 
   if (!content) throw new Error("Missing content");
+
+  // ADD MODERATE CONTENT
+  const moderation = await moderateContent(content);
+  console.warn("Moderation result:", moderation);
+  if (moderation.decision !== "allow") {
+    const data: { content: string; user_id?: string; categories?: string } = {
+      content,
+      user_id,
+      categories: moderation.categories.join(", "),
+    };
+    await prisma.flagged.create({ data });
+    throw new Error(
+      `Content flagged by moderation: ${moderation.explanation} (categories: ${moderation.categories.join(", ")})`
+    );
+  }
 
   // TODO: typing should be infered from Prisma schema
   const data: { content: string; parent_id?: number; user_id?: string } = {
