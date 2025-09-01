@@ -13,4 +13,26 @@ export const dict = {
   newComment: "コメント新規作成",
   home: "ホーム",
   noRecordYet: "まだアイテムがない",
+
+  contentModerated:
+    "コンテンツがモデレーションシステムによってフラグされました",
+  flaggedCategories: "フラグされたカテゴリ",
+  commentAdded: "コメントが正常に追加されました",
+  itemAdded: "アイテムが正常に追加されました",
+  pleaseReviseContent: "コンテンツを修正して再度お試しください",
+  moderation: {
+    hate: "ヘイトスピーチ",
+    "hate/threatening": "脅迫的なヘイトスピーチ",
+    harassment: "ハラスメント",
+    "harassment/threatening": "脅迫的なハラスメント",
+    self_harm: "自傷行為に関する内容",
+    "self_harm/intent": "自傷行為の意図",
+    "self_harm/instructions": "自傷行為の指示",
+    sexual: "性的な内容",
+    "sexual/minors": "未成年者に関する性的な内容",
+    violence: "暴力",
+    "violence/graphic": "グラフィックな暴力",
+    illicit: "違法行為",
+    "illicit/violent": "暴力的な違法行為",
+  },
 };
