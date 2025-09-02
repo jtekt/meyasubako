@@ -21,7 +21,7 @@ The app behavior is controlled with environment variables:
 | `OPENAI_API_KEY`          | (Optional) If provided, AI moderation is enabled.                                |
 | `OPENAI_MODEL`            | (Optional) Which OpenAI model to use for moderation (e.g. `gpt-4o-mini`).        |
 | `MODERATION_INSTRUCTIONS` | (Optional) Custom moderation instructions when AI moderation is active.          |
-| `PROXY_URL`               | (Optional) Proxy URL for outgoing requests (e.g. when behind a corporate proxy). |
+| `HTTPS_PROXY`             | (Optional) Proxy URL for outgoing requests (e.g. when behind a corporate proxy). |
 | `OIDC_AUTHORITY`          | (Optional) OIDC authority URL for enabling authentication.                       |
 | `OIDC_IDENTIFIER`         | (Optional) OIDC client identifier for authentication.                            |
 
