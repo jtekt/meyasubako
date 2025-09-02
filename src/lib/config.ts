@@ -1,11 +1,14 @@
 import { ProxyAgent, setGlobalDispatcher } from "undici";
 
-const {
+export const {
   OIDC_AUTHORITY,
   OIDC_IDENTIFIER = "preferred_username",
   OPENAI_API_KEY,
+  OPENAI_MODEL = "gpt-4o-mini", // or "gpt-4o" for better accuracy
+  MODERATION_INSTRUCTIONS = "None",
   HTTPS_PROXY,
 } = process.env;
+
 export const authEnabled = !!OIDC_AUTHORITY;
 export const oidcIdentifier = OIDC_IDENTIFIER;
 export const aiEnabled = !!OPENAI_API_KEY;

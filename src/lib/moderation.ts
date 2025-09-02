@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { aiEnabled } from "./config";
+import { aiEnabled, OPENAI_MODEL, MODERATION_INSTRUCTIONS } from "./config";
 import { ModerationCategoryKeys, ModerationSchema } from "~/schemas/moderation";
 import z from "zod";
 
@@ -14,8 +14,7 @@ export const moderateContent = async (
   try {
     const client = new OpenAI();
 
-    const customInstructions = process.env.MODERATION_INSTRUCTIONS;
-    console.log("Using custom instructions:", !!customInstructions);
+    console.log("Using custom instructions:", !!MODERATION_INSTRUCTIONS);
 
     const moderationPrompt = `You are a content moderation system. Analyze the following content and determine if it violates any of these categories:
 
@@ -35,7 +34,7 @@ CATEGORIES TO CHECK:
 - illicit/violent: Content promoting violent illegal activities
 
 CUSTOM INSTRUCTIONS:
-${customInstructions || "None"}
+${MODERATION_INSTRUCTIONS}
 
 Respond ONLY with a JSON object in this exact format:
 {
@@ -50,7 +49,7 @@ Only include categories that are flagged (true). If no violations, return empty 
     const userContent = `CONTENT TO ANALYZE: "${message}"`;
 
     const resp = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "gpt-4o-mini", // or "gpt-4o" for better accuracy
+      model: OPENAI_MODEL,
       messages: [
         {
           role: "system",
