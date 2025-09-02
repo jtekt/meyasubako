@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
 
-const proxyAgent = new HttpsProxyAgent("http://172.16.105.13:8118");
+const proxyAgent = new HttpsProxyAgent(process.env.HTTPS_PROXY || "");
 
 const fetchWithProxy = (input: any, init?: any) => {
     return fetch(input, { ...init, agent: process.env.NODE_ENV === "development" ? proxyAgent : undefined }) as any;

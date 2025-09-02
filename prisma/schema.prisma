@@ -18,11 +18,3 @@ model item {
   parent    item?     @relation("itemToitem", fields: [parent_id], references: [id], onDelete: Cascade, map: "fk_item_item")
   comments  item[]    @relation("itemToitem")
 }
-
-model flagged {
-  id         Int       @id(map: "pk_flagged") @default(autoincrement())
-  content    String
-  categories String?
-  time       DateTime? @default(now()) @db.Timestamp(6)
-  user_id    String?
-}
