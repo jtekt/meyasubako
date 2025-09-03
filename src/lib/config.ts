@@ -7,7 +7,8 @@ export const {
   OPENAI_MODEL = "gpt-4o-mini", // or "gpt-4o" for better accuracy
   MODERATION_INSTRUCTIONS = "None",
   HTTPS_PROXY,
-  INPUT_EXPLANATION,
+  INPUT_EXPLANATION_JA,
+  INPUT_EXPLANATION_EN,
 } = process.env;
 
 export const authEnabled = !!OIDC_AUTHORITY;

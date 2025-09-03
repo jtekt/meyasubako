@@ -12,7 +12,7 @@ const dictionaries = {
 
 const locales = ["en", "ja"] as const;
 
-export const validLocales = z.union(locales.map((l) => z.literal(l)));
+export const validLocales = z.enum(locales);
 
 export type Locale = (typeof locales)[number];
 export type RawDictionary = typeof en.dict;
