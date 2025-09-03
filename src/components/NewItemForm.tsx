@@ -1,5 +1,7 @@
 import { useSubmission } from "@solidjs/router";
 import { registerItem } from "~/lib/items";
+import { INPUT_EXPLANATION } from "~/lib/config";
+
 import { FaSolidPlus, FaSolidCircleXmark, FaSolidCheck } from "solid-icons/fa";
 import { t } from "~/i18n";
 import { Show, For } from "solid-js";
@@ -26,6 +28,10 @@ export default ({ parent_id, type = "item" }: Props) => {
         <h2 class="card-title">
           {t(type === "comment" ? "newComment" : "newItem")}
         </h2>
+
+        <Show when={INPUT_EXPLANATION && type === "item"}>
+          <div>{INPUT_EXPLANATION}</div>
+        </Show>
 
         {/* Error Display with flagged categories */}
         <Show when={submission.result?.error}>
