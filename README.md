@@ -24,6 +24,7 @@ The app behavior is controlled with environment variables:
 | `HTTPS_PROXY`             | (Optional) Proxy URL for outgoing requests (e.g. when behind a corporate proxy). |                    |
 | `OIDC_AUTHORITY`          | (Optional) OIDC authority URL for enabling authentication.                       |                    |
 | `OIDC_IDENTIFIER`         | (Optional) Name of the field in the OIDC user object to use as identifier.       | preferred_username |
+| `INPUT_EXPLANATION`       | (Optional) Explanation to be displayed above the new item input field            |                    |
 
 ## 🧩 Moderation (Optional)
 
