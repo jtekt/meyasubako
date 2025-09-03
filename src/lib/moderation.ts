@@ -116,6 +116,7 @@ Only include categories that are flagged (true). If no violations, return empty 
 
       return { error: true };
     }
+
     const validatedResult = ModerationSchema.parse(parsedResult);
 
     if (validatedResult.flagged) {
@@ -129,6 +130,8 @@ Only include categories that are flagged (true). If no violations, return empty 
         categories: validatedResult.categories,
       };
     }
+
+    return { error: false };
   } catch (error) {
     console.error("Moderation error:", error);
 
