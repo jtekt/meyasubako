@@ -2,14 +2,22 @@ import { createAsync } from "@solidjs/router";
 
 import { locale } from "~/i18n";
 import { Show } from "solid-js";
-import { getExplanation } from "~/lib/explanation";
+import { getExplanationQuery } from "~/lib/explanation";
 
 export default () => {
-  const explanation = createAsync(() => getExplanation());
+  const getExplanation = createAsync(() => getExplanationQuery());
+
+  const getTransaltedExplanation = () => {
+    const explanation = getExplanation();
+    if (!explanation) return null;
+    return explanation[locale()];
+  };
 
   return (
     <div>
-      <Show when={explanation()}>{explanation()[locale()]}</Show>
+      <Show when={getTransaltedExplanation()}>
+        {getTransaltedExplanation()}
+      </Show>
     </div>
   );
 };
