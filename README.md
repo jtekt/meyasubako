@@ -15,15 +15,16 @@ It allows team members to freely suggest improvements, discuss ideas, and react 
 
 The app behavior is controlled with environment variables:
 
-| Variable                  | Description                                                                      |
-| ------------------------- | -------------------------------------------------------------------------------- |
-| `DATABASE_URL`            | PostgreSQL connection string for app storage.                                    |
-| `OPENAI_API_KEY`          | (Optional) If provided, AI moderation is enabled.                                |
-| `OPENAI_MODEL`            | (Optional) Which OpenAI model to use for moderation (e.g. `gpt-4o-mini`).        |
-| `MODERATION_INSTRUCTIONS` | (Optional) Custom moderation instructions when AI moderation is active.          |
-| `HTTPS_PROXY`             | (Optional) Proxy URL for outgoing requests (e.g. when behind a corporate proxy). |
-| `OIDC_AUTHORITY`          | (Optional) OIDC authority URL for enabling authentication.                       |
-| `OIDC_IDENTIFIER`         | (Optional) OIDC client identifier for authentication.                            |
+| Variable                  | Description                                                                      | Default            |
+| ------------------------- | -------------------------------------------------------------------------------- | ------------------ |
+| `DATABASE_URL`            | PostgreSQL connection string for app storage.                                    |                    |
+| `OPENAI_API_KEY`          | (Optional) If provided, AI moderation is enabled.                                |                    |
+| `OPENAI_MODEL`            | (Optional) Which OpenAI model to use for moderation (e.g. `gpt-4o-mini`).        | gpt-4o-mini        |
+| `MODERATION_INSTRUCTIONS` | (Optional) Custom moderation instructions when AI moderation is active.          | None               |
+| `HTTPS_PROXY`             | (Optional) Proxy URL for outgoing requests (e.g. when behind a corporate proxy). |                    |
+| `OIDC_AUTHORITY`          | (Optional) OIDC authority URL for enabling authentication.                       |                    |
+| `OIDC_IDENTIFIER`         | (Optional) Name of the field in the OIDC user object to use as identifier.       | preferred_username |
+| `INPUT_EXPLANATION`       | (Optional) Explanation to be displayed above the new item input field            |                    |
 
 ## 🧩 Moderation (Optional)
 
@@ -41,7 +42,6 @@ If you want to require login via OIDC:
 
 ```env
 OIDC_AUTHORITY=https://your-oidc-provider.com
-OIDC_IDENTIFIER=your-client-id
 ```
 
 This will enforce authenticated access.
