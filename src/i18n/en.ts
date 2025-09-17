@@ -33,5 +33,7 @@ export const dict = {
     "violence/graphic": "Graphic violence",
     illicit: "Illicit activities",
     "illicit/violent": "Violent illicit activities",
+    insults: "Insults or name-calling",
+    unconstructive: "Unconstructive or dismissive feedback",
   },
 };

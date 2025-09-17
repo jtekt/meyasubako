@@ -14,6 +14,8 @@ export const ModerationCategoryKeys = z.enum([
   "violence/graphic",
   "illicit",
   "illicit/violent",
+  "insults",
+  "unconstructive",
 ]);
 
 export const ModerationSchema = z.object({

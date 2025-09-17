@@ -34,5 +34,7 @@ export const dict = {
     "violence/graphic": "グラフィックな暴力",
     illicit: "違法行為",
     "illicit/violent": "暴力的な違法行為",
+    insults: "侮辱や悪口",
+    unconstructive: "建設的でない・否定的なフィードバック",
   },
 };
