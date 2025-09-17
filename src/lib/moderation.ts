@@ -32,6 +32,8 @@ CATEGORIES TO CHECK:
 - violence/graphic: Graphic depictions of violence
 - illicit: Content promoting illegal activities
 - illicit/violent: Content promoting violent illegal activities
+- insults: Content that includes personal attacks, name-calling, or non-constructive criticism
+- unconstructive: Feedback that is dismissive, rude, or not actionable
 
 CUSTOM INSTRUCTIONS:
 ${MODERATION_INSTRUCTIONS}
@@ -92,6 +94,8 @@ Only include categories that are flagged (true). If no violations, return empty 
                   "violence/graphic": { type: "boolean" },
                   illicit: { type: "boolean" },
                   "illicit/violent": { type: "boolean" },
+                  insults: { type: "boolean" },
+                  unconstructive: { type: "boolean" },
                 },
               },
             },
