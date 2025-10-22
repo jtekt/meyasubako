@@ -1,7 +1,7 @@
 import { RiEditorTranslate2 } from "solid-icons/ri";
 import { onMount } from "solid-js";
 
-import { locale, Locale, setLocale, validLocales } from "~/i18n";
+import { Locale, setLocale, validLocales } from "~/i18n";
 
 export default () => {
   function setAndSaveLocale(newLocale: Locale) {

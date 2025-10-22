@@ -12,7 +12,7 @@ export default ({ sort }: Props) => {
 
   function buttonClass(newOrder: string) {
     let out = `btn btn-xs btn-square`;
-    const { sort: currentSort = "time", order: currentOrder = "desc" } =
+    const { sort: currentSort = "likes", order: currentOrder = "desc" } =
       searchParams;
     if (currentSort === sort && currentOrder === newOrder)
       out = `${out} btn-primary`;
@@ -23,10 +23,10 @@ export default ({ sort }: Props) => {
   return (
     <span class="mx-2 flex gap-1">
       <button class={buttonClass("desc")} onClick={() => applySort("desc")}>
-        <FaSolidArrowDown />
+        <FaSolidArrowUp />
       </button>
       <button class={buttonClass("asc")} onClick={() => applySort("asc")}>
-        <FaSolidArrowUp />
+        <FaSolidArrowDown />
       </button>
     </span>
   );

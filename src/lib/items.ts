@@ -50,7 +50,7 @@ export const getItems = query(async (opts: GetItemOpts) => {
   const searchParams = new URLSearchParams(searchParamsString);
 
   const page = searchParams.get("page") || "1";
-  const sort = searchParams.get("sort") || "time";
+  const sort = searchParams.get("sort") || "likes";
   const order = searchParams.get("order") || "desc";
   const search = searchParams.get("search");
 
@@ -80,7 +80,7 @@ export const getItems = query(async (opts: GetItemOpts) => {
   const items = await prisma.item.findMany(fullQuery);
   const total = await prisma.item.count(baseQuery);
 
-  return { page: Number(page), pageSize, total, items };
+  return { page: Number(page), pageSize, total, items, sort, order };
 }, "items");
 
 function includeParents(layer = 0): any {

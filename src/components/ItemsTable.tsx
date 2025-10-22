@@ -43,7 +43,7 @@ export default () => {
                       <BsCalendar size={16} />
                       <SortButtons sort="time" />
                     </th>
-                    <th>{/* TODO: icon */}</th>
+                    <th></th>
                     <th class="flex gap-2 items-center justify-center">
                       <FaRegularThumbsUp size={16} />
                       <SortButtons sort="likes" />
