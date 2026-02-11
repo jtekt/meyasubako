@@ -9,14 +9,8 @@ variables:
   K8S_RESOURCE_NAME: ${APPLICATION_NAME}
   K8S_NODEPORT: 30556
 
-image: moreillon/ci-dind
-services:
-  - name: docker:24.0.7-dind
-
 build:
   stage: build
-  tags:
-    - dind
   only:
     - master
   before_script:
@@ -32,8 +26,6 @@ build:
 
 deploy:
   stage: deploy
-  tags:
-    - dind
   only:
     - master
   script:
